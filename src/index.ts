@@ -23,6 +23,10 @@ interface SingleVideoParams {
     videoId: string;
 }
 
+interface TranscriptParams {
+    videoIds: string[];
+}
+
 interface SearchParams {
     query: string;
     maxResults?: number;
@@ -124,13 +128,18 @@ async function main() {
     // Video transcript retrieval tool
     server.tool(
         "getTranscript",
-        "Retrieves the transcript for a specific video. Returns the text content of the video's captions, useful for accessibility and content analysis. Use this when you need the spoken content of a video.",
-        { videoId: z.string() },
-        async ({ videoId }: SingleVideoParams) => {
+        "Retrieves transcripts for one or more videos. Returns the text content of the videos' captions, useful for accessibility and content analysis. Use this when you need the spoken content of videos. The function can process multiple videos in a single request.",
+        { videoIds: z.array(z.string()) },
+        async ({ videoIds }: TranscriptParams) => {
             try {
-                const transcript = await videoManager.getTranscript(videoId);
+                const transcriptPromises = videoIds.map(videoId => 
+                    videoManager.getTranscript(videoId)
+                );
+                
+                const transcripts = await Promise.all(transcriptPromises);
+                
                 return {
-                    content: [{ type: "text", text: JSON.stringify(transcript, null, 2) }]
+                    content: [{ type: "text", text: JSON.stringify(transcripts, null, 2) }]
                 };
             } catch (error: any) {
                 return {
