@@ -16,6 +16,10 @@ if (!process.env.YOUTUBE_API_KEY) {
 const defaultTranscriptLang = process.env.YOUTUBE_TRANSCRIPT_LANG || 'ko';
 
 interface VideoDetailsParams {
+    videoIds: string[];
+}
+
+interface SingleVideoParams {
     videoId: string;
 }
 
@@ -55,15 +59,20 @@ async function main() {
 
     // 비디오 상세 정보 조회 도구
     server.tool("getVideoDetails",
-        { videoId: z.string() },
-        async ({ videoId }: VideoDetailsParams) => {
+        { videoIds: z.array(z.string()) },
+        async ({ videoIds }: VideoDetailsParams) => {
             try {
-                const videoDetails = await videoManager.getVideo({
-                    videoId,
-                    parts: ["snippet", "statistics", "contentDetails"]
-                });
+                const videoDetailsPromises = videoIds.map(videoId => 
+                    videoManager.getVideo({
+                        videoId,
+                        parts: ["snippet", "statistics", "contentDetails"]
+                    })
+                );
+                
+                const videoDetailsList = await Promise.all(videoDetailsPromises);
+                
                 return {
-                    content: [{ type: "text", text: JSON.stringify(videoDetails, null, 2) }]
+                    content: [{ type: "text", text: JSON.stringify(videoDetailsList, null, 2) }]
                 };
             } catch (error: any) {
                 return {
@@ -111,7 +120,7 @@ async function main() {
     // 비디오 자막 조회 도구
     server.tool("getTranscript",
         { videoId: z.string() },
-        async ({ videoId }: VideoDetailsParams) => {
+        async ({ videoId }: SingleVideoParams) => {
             try {
                 const transcript = await videoManager.getTranscript(videoId);
                 return {
@@ -208,7 +217,7 @@ async function main() {
     // 비디오 참여율 계산 도구
     server.tool("getVideoEngagementRatio",
         { videoId: z.string() },
-        async ({ videoId }: VideoDetailsParams) => {
+        async ({ videoId }: SingleVideoParams) => {
             try {
                 const engagementRatio = await videoManager.getVideoEngagementRatio(videoId);
                 return {
