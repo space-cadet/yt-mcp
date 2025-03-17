@@ -1,5 +1,5 @@
 # YouTube MCP Server
-[![smithery badge](https://smithery.ai/badge/@sonhyeonho/youtube)](https://smithery.ai/server/@sonhyeonho/youtube)
+[![smithery badge](https://smithery.ai/badge/@player_hero/youtube)](https://smithery.ai/server/@player_hero/youtube)
 
 YouTube Data API를 활용한 Model Context Protocol (MCP) 서버 구현체입니다. AI 언어 모델이 표준화된 인터페이스를 통해 YouTube 콘텐츠와 상호작용할 수 있도록 합니다.
 
@@ -33,10 +33,10 @@ YouTube Data API를 활용한 Model Context Protocol (MCP) 서버 구현체입�
 
 ### Smithery를 통한 자동 설치
 
-[Smithery](https://smithery.ai/server/@sonhyeonho/youtube)를 통해 Claude Desktop용 YouTube MCP Server를 자동으로 설치:
+[Smithery](https://smithery.ai/server/@player_hero/youtube)를 통해 Claude Desktop용 YouTube MCP Server를 자동으로 설치:
 
 ```bash
-npx -y @smithery/cli install @sonhyeonho/youtube --client claude
+npx -y @smithery/cli install @player_hero/youtube --client claude
 ```
 
 ### 수동 설치
