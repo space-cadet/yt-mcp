@@ -6,14 +6,14 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// 환경 변수 검증
+// Environment variable validation
 if (!process.env.YOUTUBE_API_KEY) {
-  console.error('Error: YOUTUBE_API_KEY 환경 변수가 설정되지 않았습니다.');
+  console.error('Error: YOUTUBE_API_KEY environment variable is not set.');
   process.exit(1);
 }
 
-// 기본 자막 언어 설정
-const defaultTranscriptLang = process.env.YOUTUBE_TRANSCRIPT_LANG || 'ko';
+// Default caption language setting
+const defaultTranscriptLang = process.env.YOUTUBE_TRANSCRIPT_LANG || 'en';
 
 interface VideoDetailsParams {
     videoIds: string[];
@@ -51,13 +51,13 @@ interface CompareVideosParams {
 async function main() {
     const videoManager = new VideoManagement();
     
-    // MCP 서버 생성
+    // Create MCP server
     const server = new McpServer({
         name: "YouTube",
         version: "1.0.0"
     });
 
-    // 비디오 상세 정보 조회 도구
+    // Video details retrieval tool
     server.tool("getVideoDetails",
         { videoIds: z.array(z.string()) },
         async ({ videoIds }: VideoDetailsParams) => {
@@ -88,7 +88,7 @@ async function main() {
         }
     );
 
-    // 비디오 검색 도구
+    // Video search tool
     server.tool("searchVideos",
         { 
             query: z.string(),
@@ -117,7 +117,7 @@ async function main() {
         }
     );
 
-    // 비디오 자막 조회 도구
+    // Video transcript retrieval tool
     server.tool("getTranscript",
         { videoId: z.string() },
         async ({ videoId }: SingleVideoParams) => {
@@ -139,7 +139,7 @@ async function main() {
         }
     );
 
-    // 관련 비디오 조회 도구
+    // Related videos retrieval tool
     server.tool("getRelatedVideos",
         { 
             videoId: z.string(),
@@ -165,7 +165,7 @@ async function main() {
         }
     );
 
-    // 채널 통계 조회 도구
+    // Channel statistics retrieval tool
     server.tool("getChannelStatistics",
         { channelId: z.string() },
         async ({ channelId }: ChannelParams) => {
@@ -188,7 +188,7 @@ async function main() {
         }
     );
 
-    // 채널 인기 비디오 조회 도구
+    // Channel top videos retrieval tool
     server.tool("getChannelTopVideos",
         { 
             channelId: z.string(),
@@ -214,7 +214,7 @@ async function main() {
         }
     );
 
-    // 비디오 참여율 계산 도구
+    // Video engagement ratio calculation tool
     server.tool("getVideoEngagementRatio",
         { videoId: z.string() },
         async ({ videoId }: SingleVideoParams) => {
@@ -237,7 +237,7 @@ async function main() {
         }
     );
 
-    // 인기 동영상 조회 도구
+    // Trending videos retrieval tool
     server.tool("getTrendingVideos",
         { 
             regionCode: z.string().optional(),
@@ -264,7 +264,7 @@ async function main() {
         }
     );
 
-    // 비디오 비교 도구
+    // Video comparison tool
     server.tool("compareVideos",
         { videoIds: z.array(z.string()) },
         async ({ videoIds }: CompareVideosParams) => {
@@ -287,14 +287,14 @@ async function main() {
         }
     );
 
-    // stdin/stdout를 통해 메시지 송수신 시작
+    // Start message exchange through stdin/stdout
     const transport = new StdioServerTransport();
     await server.connect(transport);
 
-    console.error('YouTube MCP 서버가 시작되었습니다.');
+    console.error('YouTube MCP server has started.');
 }
 
 main().catch((err) => {
-    console.error('서버 실행 중 오류 발생:', err);
+    console.error('Error occurred during server execution:', err);
     process.exit(1);
 }); 

@@ -1,61 +1,61 @@
 # YouTube MCP Server
 [![smithery badge](https://smithery.ai/badge/@player_hero/youtube)](https://smithery.ai/server/@player_hero/youtube)
 
-YouTube Data API를 활용한 Model Context Protocol (MCP) 서버 구현체입니다. AI 언어 모델이 표준화된 인터페이스를 통해 YouTube 콘텐츠와 상호작용할 수 있도록 합니다.
+A Model Context Protocol (MCP) server implementation utilizing the YouTube Data API. It allows AI language models to interact with YouTube content through a standardized interface.
 
-## 주요 기능
+## Key Features
 
-### 비디오 정보
-* 비디오 상세 정보 조회 (제목, 설명, 길이 등)
-* 채널 비디오 목록 조회
-* 비디오 통계 조회 (조회수, 좋아요, 댓글)
-* YouTube 전체 비디오 검색
+### Video Information
+* Retrieve video details (title, description, duration, etc.)
+* List channel videos
+* View video statistics (views, likes, comments)
+* Search across all YouTube videos
 
-### 자막 관리
-* 비디오 자막 조회
-* 다국어 지원
-* 타임스탬프 자막 조회
-* 자막 내 검색
+### Caption Management
+* Retrieve video captions
+* Multi-language support
+* Timestamp-based caption retrieval
+* Search within captions
 
-### 채널 관리
-* 채널 상세 정보 조회
-* 채널 통계 조회 (구독자 수, 총 조회수, 비디오 수)
-* 채널의 인기 동영상 조회 (최대 500개)
-* 채널 내 콘텐츠 검색
+### Channel Management
+* View channel details
+* Retrieve channel statistics (subscriber count, total views, video count)
+* Get popular videos from a channel (up to 500)
+* Search within channel content
 
-### 트렌드 분석
-* 국가별 인기 동영상 조회
-* 카테고리별 인기 동영상 조회
-* 비디오 참여율 분석
-* 비디오 성과 비교 분석
+### Trend Analysis
+* View trending videos by country
+* View trending videos by category
+* Analyze video engagement rates
+* Compare video performance
 
-## 설치 방법
+## Installation
 
-### Smithery를 통한 자동 설치
+### Automatic Installation via Smithery
 
-[Smithery](https://smithery.ai/server/@player_hero/youtube)를 통해 Claude Desktop용 YouTube MCP Server를 자동으로 설치:
+Automatically install YouTube MCP Server for Claude Desktop via [Smithery](https://smithery.ai/server/@player_hero/youtube):
 
 ```bash
 npx -y @smithery/cli install @player_hero/youtube --client claude
 ```
 
-### 수동 설치
+### Manual Installation
 ```bash
-# 저장소 클론
+# Clone repository
 git clone https://github.com/sonhyeonho/youtube-mcp-server.git
 cd youtube-mcp-server
 
-# 의존성 설치 및 빌드
+# Install dependencies and build
 npm install
 ```
 
-## 환경 설정
-다음 환경 변수를 설정하세요:
-* `YOUTUBE_API_KEY`: YouTube Data API 키
-* `YOUTUBE_TRANSCRIPT_LANG`: 기본 자막 언어 (선택사항, 기본값: 'ko')
+## Environment Configuration
+Set the following environment variables:
+* `YOUTUBE_API_KEY`: YouTube Data API key
+* `YOUTUBE_TRANSCRIPT_LANG`: Default caption language (optional, default: 'en')
 
-## MCP 클라이언트 설정
-Claude Desktop의 설정 파일에 다음 내용을 추가하세요:
+## MCP Client Configuration
+Add the following to your Claude Desktop configuration file:
 
 ```json
 {
@@ -64,7 +64,7 @@ Claude Desktop의 설정 파일에 다음 내용을 추가하세요:
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-youtube"],
       "env": {
-        "YOUTUBE_API_KEY": "여기에_본인의_API_키를_입력하세요",
+        "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
         "YOUTUBE_TRANSCRIPT_LANG": "en"
       }
     }
@@ -72,31 +72,31 @@ Claude Desktop의 설정 파일에 다음 내용을 추가하세요:
 }
 ```
 
-## YouTube API 설정
-1. Google Cloud Console 접속
-2. 새 프로젝트 생성 또는 기존 프로젝트 선택
-3. YouTube Data API v3 활성화
-4. API 자격 증명 생성 (API 키)
-5. 생성된 API 키를 환경 설정에 사용
+## YouTube API Setup
+1. Access Google Cloud Console
+2. Create a new project or select an existing one
+3. Enable YouTube Data API v3
+4. Create API credentials (API key)
+5. Use the generated API key in your environment configuration
 
 
-## 개발
+## Development
 
 ```bash
-# 의존성 설치
+# Install dependencies
 npm install
 
-# 개발 모드 실행
+# Run in development mode
 npm run dev
 
-# 빌드
+# Build
 npm run build
 ```
 
-## 보안 주의사항
-- API 키는 항상 안전하게 보관하고 버전 관리 시스템에 커밋하지 마세요.
-- 환경 변수나 설정 파일을 통해 API 키를 관리하세요.
-- API 키의 사용 제한을 설정하여 무단 사용을 방지하세요.
+## Security Considerations
+- Always keep your API key secure and never commit it to version control systems.
+- Manage your API key through environment variables or configuration files.
+- Set usage limits for your API key to prevent unauthorized use.
 
-## 라이선스
-이 프로젝트는 MIT 라이선스를 따릅니다. 자세한 내용은 LICENSE 파일을 참조하세요. 
+## License
+This project is licensed under the MIT License. See the LICENSE file for details. 

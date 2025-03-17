@@ -46,12 +46,12 @@ export class VideoManagement {
       });
 
       if (!response.data.items?.length) {
-        throw new Error('비디오를 찾을 수 없습니다.');
+        throw new Error('Video not found.');
       }
 
       return response.data.items[0];
     } catch (error: any) {
-      throw new Error(`비디오 정보 조회 실패: ${error.message}`);
+      throw new Error(`Failed to retrieve video information: ${error.message}`);
     }
   }
 
@@ -84,7 +84,7 @@ export class VideoManagement {
 
       return results.slice(0, targetResults);
     } catch (error: any) {
-      throw new Error(`비디오 검색 실패: ${error.message}`);
+      throw new Error(`Failed to search videos: ${error.message}`);
     }
   }
 
@@ -92,11 +92,11 @@ export class VideoManagement {
     try {
       const transcript = await getSubtitles({
         videoID: videoId,
-        lang: 'ko'
+        lang: process.env.YOUTUBE_TRANSCRIPT_LANG || 'en'
       });
       return transcript;
     } catch (error: any) {
-      throw new Error(`자막 조회 실패: ${error.message}`);
+      throw new Error(`Failed to retrieve transcript: ${error.message}`);
     }
   }
 
@@ -111,7 +111,7 @@ export class VideoManagement {
 
       return response.data.items || [];
     } catch (error: any) {
-      throw new Error(`관련 비디오 조회 실패: ${error.message}`);
+      throw new Error(`Failed to retrieve related videos: ${error.message}`);
     }
   }
 
@@ -123,7 +123,7 @@ export class VideoManagement {
       });
 
       if (!response.data.items?.length) {
-        throw new Error('채널을 찾을 수 없습니다.');
+        throw new Error('Channel not found.');
       }
 
       const channel = response.data.items[0];
@@ -134,7 +134,7 @@ export class VideoManagement {
         videoCount: channel.statistics?.videoCount
       };
     } catch (error: any) {
-      throw new Error(`채널 통계 조회 실패: ${error.message}`);
+      throw new Error(`Failed to retrieve channel statistics: ${error.message}`);
     }
   }
 
@@ -167,14 +167,14 @@ export class VideoManagement {
       }
 
       if (!searchResults.length) {
-        throw new Error('비디오를 찾을 수 없습니다.');
+        throw new Error('No videos found.');
       }
 
       const videoIds = searchResults
         .map(item => item.id?.videoId)
         .filter((id): id is string => id !== undefined);
 
-      // 비디오 상세 정보를 50개씩 나누어 조회
+      // Retrieve video details in batches of 50
       const videoDetails: youtube_v3.Schema$Video[] = [];
       for (let i = 0; i < videoIds.length; i += this.MAX_RESULTS_PER_PAGE) {
         const batch = videoIds.slice(i, i + this.MAX_RESULTS_PER_PAGE);
@@ -197,7 +197,7 @@ export class VideoManagement {
         commentCount: video.statistics?.commentCount
       }));
     } catch (error: any) {
-      throw new Error(`채널 인기 비디오 조회 실패: ${error.message}`);
+      throw new Error(`Failed to retrieve channel's top videos: ${error.message}`);
     }
   }
 
@@ -209,7 +209,7 @@ export class VideoManagement {
       });
 
       if (!response.data.items?.length) {
-        throw new Error('비디오를 찾을 수 없습니다.');
+        throw new Error('Video not found.');
       }
 
       const stats = response.data.items[0].statistics;
@@ -228,11 +228,11 @@ export class VideoManagement {
         engagementRatio: `${engagementRatio}%`
       };
     } catch (error: any) {
-      throw new Error(`비디오 참여율 계산 실패: ${error.message}`);
+      throw new Error(`Failed to calculate video engagement ratio: ${error.message}`);
     }
   }
 
-  async getTrendingVideos({ regionCode = 'KR', categoryId, maxResults = 10 }: TrendingOptions) {
+  async getTrendingVideos({ regionCode = 'US', categoryId, maxResults = 10 }: TrendingOptions) {
     try {
       const params: youtube_v3.Params$Resource$Videos$List = {
         part: ['snippet', 'statistics'],
@@ -256,7 +256,7 @@ export class VideoManagement {
         likeCount: video.statistics?.likeCount
       })) || [];
     } catch (error: any) {
-      throw new Error(`인기 동영상 조회 실패: ${error.message}`);
+      throw new Error(`Failed to retrieve trending videos: ${error.message}`);
     }
   }
 
@@ -268,7 +268,7 @@ export class VideoManagement {
       });
 
       if (!response.data.items?.length) {
-        throw new Error('비디오를 찾을 수 없습니다.');
+        throw new Error('No videos found.');
       }
 
       return response.data.items.map(video => ({
@@ -280,7 +280,7 @@ export class VideoManagement {
         publishedAt: video.snippet?.publishedAt
       }));
     } catch (error: any) {
-      throw new Error(`비디오 비교 실패: ${error.message}`);
+      throw new Error(`Failed to compare videos: ${error.message}`);
     }
   }
 } 
