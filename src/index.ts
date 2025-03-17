@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import 'dotenv/config';
 import { VideoManagement } from './functions/videos.js';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
