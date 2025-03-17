@@ -63,9 +63,10 @@ Claude Desktop의 설정 파일에 다음 내용을 추가하세요:
     "youtube": {
       "command": "npm",
       "args": ["start"],
-      "cwd": "/Users/sonhyeonho/mcp-server/youtube-mcp-server",
+      "cwd": "$(npm root -g)/@sonhyeonho/youtube-data-mcp-server",
       "env": {
-        "YOUTUBE_API_KEY": "여기에_본인의_API_키를_입력하세요"
+        "YOUTUBE_API_KEY": "여기에_본인의_API_키를_입력하세요",
+        "YOUTUBE_TRANSCRIPT_LANG": "en"
       }
     }
   }
@@ -79,57 +80,6 @@ Claude Desktop의 설정 파일에 다음 내용을 추가하세요:
 4. API 자격 증명 생성 (API 키)
 5. 생성된 API 키를 환경 설정에 사용
 
-## 사용 예시
-
-### 비디오 관리
-
-```javascript
-// 비디오 상세 정보 조회
-const video = await videoManager.getVideo({
-  videoId: "video-id"
-});
-
-// 비디오 자막 조회
-const transcript = await videoManager.getTranscript("video-id");
-
-// 비디오 검색
-const searchResults = await videoManager.searchVideos({
-  query: "검색어",
-  maxResults: 500
-});
-```
-
-### 채널 관리
-
-```javascript
-// 채널 통계 조회
-const statistics = await videoManager.getChannelStatistics("channel-id");
-
-// 채널의 인기 동영상 조회
-const topVideos = await videoManager.getChannelTopVideos({
-  channelId: "channel-id",
-  maxResults: 500
-});
-```
-
-### 트렌드 분석
-
-```javascript
-// 인기 동영상 조회
-const trendingVideos = await videoManager.getTrendingVideos({
-  regionCode: "KR",
-  categoryId: "20",
-  maxResults: 50
-});
-
-// 비디오 참여율 계산
-const engagement = await videoManager.getVideoEngagementRatio("video-id");
-
-// 비디오 비교 분석
-const comparison = await videoManager.compareVideos({
-  videoIds: ["video-id-1", "video-id-2"]
-});
-```
 
 ## 개발
 
@@ -142,13 +92,9 @@ npm run dev
 
 # 빌드
 npm run build
-
-# 린트
-npm run lint
 ```
 
 ## 보안 주의사항
-
 - API 키는 항상 안전하게 보관하고 버전 관리 시스템에 커밋하지 마세요.
 - 환경 변수나 설정 파일을 통해 API 키를 관리하세요.
 - API 키의 사용 제한을 설정하여 무단 사용을 방지하세요.
