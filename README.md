@@ -61,9 +61,8 @@ Claude Desktop의 설정 파일에 다음 내용을 추가하세요:
 {
   "mcpServers": {
     "youtube": {
-      "command": "npm",
-      "args": ["start"],
-      "cwd": "$(npm root -g)/@sonhyeonho/youtube-data-mcp-server",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-youtube"],
       "env": {
         "YOUTUBE_API_KEY": "여기에_본인의_API_키를_입력하세요",
         "YOUTUBE_TRANSCRIPT_LANG": "en"
