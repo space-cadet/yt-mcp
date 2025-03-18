@@ -1,153 +1,31 @@
-name: youtube-data-mcp-server
-description: YouTube Data Integration for Model Context Protocol
-version: 1.0.12
-author: Hero
-license: MIT
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
 
-requirements:
-  node: ">=18.0.0"
-  
-expose:
-  http: 3000
-  grpc: 3001
-
-deploy:
-  image: node:18-alpine
-  command: npm start
-  env:
-    - YOUTUBE_API_KEY
-    - YOUTUBE_TRANSCRIPT_LANG
-  
-tools:
-  getVideoDetails:
-    description: Get detailed information about a YouTube video. Returns comprehensive data including video metadata, statistics, and content details.
-    parameters:
-      videoId:
-        type: string
-        description: The YouTube video ID
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
     required:
-      - videoId
-  
-  searchVideos:
-    description: Searches for videos based on a query string. Returns a list of videos matching the search criteria, including titles, descriptions, and metadata.
-    parameters:
-      query:
+      - youtubeApiKey
+    properties:
+      youtubeApiKey:
         type: string
-        description: The search query
-      maxResults:
-        type: number
-        description: Maximum number of results to return
-        default: 10
-    required:
-      - query
-  
-  getTranscript:
-    description: Retrieves transcript for a specific video. Returns the text content of the video's captions, useful for accessibility and content analysis.
-    parameters:
-      videoId:
+        description: YouTube Data API key for accessing the YouTube API.
+      youtubeTranscriptLang:
         type: string
-        description: The YouTube video ID
-      lang:
-        type: string
-        description: The language code for the transcript
-        default: "ko"
-    required:
-      - videoId
-  
-  getRelatedVideos:
-    description: Retrieves related videos for a specific video. Returns a list of videos that are similar or related to the specified video, based on YouTube's recommendation algorithm.
-    parameters:
-      videoId:
-        type: string
-        description: The YouTube video ID
-      maxResults:
-        type: number
-        description: Maximum number of results to return
-        default: 10
-    required:
-      - videoId
-      
-  getChannelStatistics:
-    description: Retrieves statistics for a specific channel. Returns detailed metrics including subscriber count, view count, and video count.
-    parameters:
-      channelId:
-        type: string
-        description: The YouTube channel ID
-    required:
-      - channelId
-      
-  getChannelTopVideos:
-    description: Retrieves the top videos from a specific channel. Returns a list of the most viewed or popular videos from the channel, based on view count.
-    parameters:
-      channelId:
-        type: string
-        description: The YouTube channel ID
-      maxResults:
-        type: number
-        description: Maximum number of results to return
-        default: 10
-    required:
-      - channelId
-      
-  getVideoEngagementRatio:
-    description: Calculates the engagement ratio for a specific video. Returns metrics such as view count, like count, comment count, and the calculated engagement ratio.
-    parameters:
-      videoId:
-        type: string
-        description: The YouTube video ID
-    required:
-      - videoId
-      
-  getTrendingVideos:
-    description: Retrieves trending videos based on region and category. Returns a list of videos that are currently popular in the specified region and category.
-    parameters:
-      regionCode:
-        type: string
-        description: Two-letter ISO country code
-        default: "US"
-      categoryId:
-        type: string
-        description: The category ID of videos to retrieve
-      maxResults:
-        type: number
-        description: Maximum number of results to return
-        default: 10
-        
-  compareVideos:
-    description: Compares multiple videos based on their statistics. Returns a comparison of view counts, like counts, comment counts, and other metrics for the specified videos.
-    parameters:
-      videoIds:
-        type: array
-        items:
-          type: string
-        description: List of YouTube video IDs to compare
-    required:
-      - videoIds
-
-installation:
-  instructions: |
-    1. Install the package with npm:
-       ```
-       npm install youtube-data-mcp-server
-       ```
-    
-    2. Set up environment variables:
-       ```
-       YOUTUBE_API_KEY=your_youtube_api_key
-       YOUTUBE_TRANSCRIPT_LANG=ko  # optional, defaults to 'ko'
-       ```
-    
-    3. Run the server:
-       ```
-       npx youtube-data-mcp-server
-       ```
-
-documentation:
-  url: https://github.com/icraft2170/youtube-data-mcp-server
-  description: |
-    This MCP server provides a set of tools to interact with YouTube Data API.
-    It allows AI models to retrieve video information, search for videos, 
-    get transcripts, and more from YouTube.
-    
-    All tools follow the Model Context Protocol specification and can be
-    used with any MCP-compatible client. 
+        default: en
+        description: Default transcript language. Defaults to 'en'.
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({
+      command: 'node',
+      args: ['dist/index.js'],
+      env: {
+        YOUTUBE_API_KEY: config.youtubeApiKey,
+        YOUTUBE_TRANSCRIPT_LANG: config.youtubeTranscriptLang || 'en'
+      }
+    })
+  exampleConfig:
+    youtubeApiKey: YOUR_YOUTUBE_API_KEY_HERE
+    youtubeTranscriptLang: en
