@@ -62,7 +62,7 @@ Add the following to your Claude Desktop configuration file:
   "mcpServers": {
     "youtube": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-youtube"],
+      "args": ["-y", "youtube-data-mcp-server"],
       "env": {
         "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
         "YOUTUBE_TRANSCRIPT_LANG": "en"
