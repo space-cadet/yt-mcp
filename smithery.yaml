@@ -1,0 +1,153 @@
+name: youtube-data-mcp-server
+description: YouTube Data Integration for Model Context Protocol
+version: 1.0.11
+author: Hero
+license: MIT
+
+requirements:
+  node: ">=18.0.0"
+  
+expose:
+  http: 3000
+  grpc: 3001
+
+deploy:
+  image: node:18-alpine
+  command: npm start
+  env:
+    - YOUTUBE_API_KEY
+    - YOUTUBE_TRANSCRIPT_LANG
+  
+tools:
+  q:
+    description: Get detailed information about a YouTube video
+    parameters:
+      videoId:
+        type: string
+        description: The YouTube video ID
+    required:
+      - videoId
+  
+  searchVideos:
+    description: Search for YouTube videos by query
+    parameters:
+      query:
+        type: string
+        description: The search query
+      maxResults:
+        type: number
+        description: Maximum number of results to return
+        default: 10
+    required:
+      - query
+  
+  getTranscript:
+    description: Get the transcript/captions for a YouTube video
+    parameters:
+      videoId:
+        type: string
+        description: The YouTube video ID
+      lang:
+        type: string
+        description: The language code for the transcript
+        default: "ko"
+    required:
+      - videoId
+  
+  getRelatedVideos:
+    description: Get videos related to a specific YouTube video
+    parameters:
+      videoId:
+        type: string
+        description: The YouTube video ID
+      maxResults:
+        type: number
+        description: Maximum number of results to return
+        default: 10
+    required:
+      - videoId
+      
+  getChannelStatistics:
+    description: Get statistics for a YouTube channel
+    parameters:
+      channelId:
+        type: string
+        description: The YouTube channel ID
+    required:
+      - channelId
+      
+  getChannelTopVideos:
+    description: Get the top videos from a YouTube channel
+    parameters:
+      channelId:
+        type: string
+        description: The YouTube channel ID
+      maxResults:
+        type: number
+        description: Maximum number of results to return
+        default: 10
+    required:
+      - channelId
+      
+  getVideoEngagementRatio:
+    description: Calculate the engagement ratio for a YouTube video
+    parameters:
+      videoId:
+        type: string
+        description: The YouTube video ID
+    required:
+      - videoId
+      
+  getTrendingVideos:
+    description: Get currently trending videos on YouTube
+    parameters:
+      regionCode:
+        type: string
+        description: Two-letter ISO country code
+        default: "US"
+      categoryId:
+        type: string
+        description: The category ID of videos to retrieve
+      maxResults:
+        type: number
+        description: Maximum number of results to return
+        default: 10
+        
+  compareVideos:
+    description: Compare multiple YouTube videos based on their statistics
+    parameters:
+      videoIds:
+        type: array
+        items:
+          type: string
+        description: List of YouTube video IDs to compare
+    required:
+      - videoIds
+
+installation:
+  instructions: |
+    1. Install the package with npm:
+       ```
+       npm install youtube-data-mcp-server
+       ```
+    
+    2. Set up environment variables:
+       ```
+       YOUTUBE_API_KEY=your_youtube_api_key
+       YOUTUBE_TRANSCRIPT_LANG=ko  # optional, defaults to 'ko'
+       ```
+    
+    3. Run the server:
+       ```
+       npx youtube-data-mcp-server
+       ```
+
+documentation:
+  url: https://github.com/username/youtube-data-mcp-server
+  description: |
+    This MCP server provides a set of tools to interact with YouTube Data API.
+    It allows AI models to retrieve video information, search for videos, 
+    get transcripts, and more from YouTube.
+    
+    All tools follow the Model Context Protocol specification and can be
+    used with any MCP-compatible client. 
