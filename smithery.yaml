@@ -143,7 +143,7 @@ installation:
        ```
 
 documentation:
-  url: https://github.com/username/youtube-data-mcp-server
+  url: https://github.com/icraft2170/youtube-data-mcp-server
   description: |
     This MCP server provides a set of tools to interact with YouTube Data API.
     It allows AI models to retrieve video information, search for videos, 
