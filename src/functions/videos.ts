@@ -88,11 +88,11 @@ export class VideoManagement {
     }
   }
 
-  async getTranscript(videoId: string) {
+  async getTranscript(videoId: string, lang?: string) {
     try {
       const transcript = await getSubtitles({
         videoID: videoId,
-        lang: process.env.YOUTUBE_TRANSCRIPT_LANG || 'en'
+        lang: lang || process.env.YOUTUBE_TRANSCRIPT_LANG || 'en'
       });
       return transcript;
     } catch (error: any) {
