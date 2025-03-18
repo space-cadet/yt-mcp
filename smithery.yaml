@@ -1,6 +1,6 @@
 name: youtube-data-mcp-server
 description: YouTube Data Integration for Model Context Protocol
-version: 1.0.11
+version: 1.0.12
 author: Hero
 license: MIT
 
@@ -19,8 +19,8 @@ deploy:
     - YOUTUBE_TRANSCRIPT_LANG
   
 tools:
-  q:
-    description: Get detailed information about a YouTube video
+  getVideoDetails:
+    description: Get detailed information about a YouTube video. Returns comprehensive data including video metadata, statistics, and content details.
     parameters:
       videoId:
         type: string
@@ -29,7 +29,7 @@ tools:
       - videoId
   
   searchVideos:
-    description: Search for YouTube videos by query
+    description: Searches for videos based on a query string. Returns a list of videos matching the search criteria, including titles, descriptions, and metadata.
     parameters:
       query:
         type: string
@@ -42,7 +42,7 @@ tools:
       - query
   
   getTranscript:
-    description: Get the transcript/captions for a YouTube video
+    description: Retrieves transcript for a specific video. Returns the text content of the video's captions, useful for accessibility and content analysis.
     parameters:
       videoId:
         type: string
@@ -55,7 +55,7 @@ tools:
       - videoId
   
   getRelatedVideos:
-    description: Get videos related to a specific YouTube video
+    description: Retrieves related videos for a specific video. Returns a list of videos that are similar or related to the specified video, based on YouTube's recommendation algorithm.
     parameters:
       videoId:
         type: string
@@ -68,7 +68,7 @@ tools:
       - videoId
       
   getChannelStatistics:
-    description: Get statistics for a YouTube channel
+    description: Retrieves statistics for a specific channel. Returns detailed metrics including subscriber count, view count, and video count.
     parameters:
       channelId:
         type: string
@@ -77,7 +77,7 @@ tools:
       - channelId
       
   getChannelTopVideos:
-    description: Get the top videos from a YouTube channel
+    description: Retrieves the top videos from a specific channel. Returns a list of the most viewed or popular videos from the channel, based on view count.
     parameters:
       channelId:
         type: string
@@ -90,7 +90,7 @@ tools:
       - channelId
       
   getVideoEngagementRatio:
-    description: Calculate the engagement ratio for a YouTube video
+    description: Calculates the engagement ratio for a specific video. Returns metrics such as view count, like count, comment count, and the calculated engagement ratio.
     parameters:
       videoId:
         type: string
@@ -99,7 +99,7 @@ tools:
       - videoId
       
   getTrendingVideos:
-    description: Get currently trending videos on YouTube
+    description: Retrieves trending videos based on region and category. Returns a list of videos that are currently popular in the specified region and category.
     parameters:
       regionCode:
         type: string
@@ -114,7 +114,7 @@ tools:
         default: 10
         
   compareVideos:
-    description: Compare multiple YouTube videos based on their statistics
+    description: Compares multiple videos based on their statistics. Returns a comparison of view counts, like counts, comment counts, and other metrics for the specified videos.
     parameters:
       videoIds:
         type: array
