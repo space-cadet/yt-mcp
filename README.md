@@ -32,7 +32,7 @@ The server provides the following MCP tools:
 
 | Tool Name | Description | Required Parameters |
 |-----------|-------------|---------------------|
-| `getVideoDetails` | Get detailed information about a YouTube video including metadata, statistics, and content details | `videoId` |
+| `getVideoDetails` | Get detailed information about multiple YouTube videos including metadata, statistics, and content details | `videoIds` (array) |
 | `searchVideos` | Search for videos based on a query string | `query`, `maxResults` (optional) |
 | `getTranscripts` | Retrieve transcripts for multiple videos | `videoIds` (array), `lang` (optional) |
 | `getRelatedVideos` | Get videos related to a specific video based on YouTube's recommendation algorithm | `videoId`, `maxResults` (optional) |

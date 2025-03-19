@@ -19,6 +19,10 @@ interface VideoDetailsParams {
     videoId: string;
 }
 
+interface VideoDetailsListParams {
+    videoIds: string[];
+}
+
 interface TranscriptParams {
     videoId: string;
     lang?: string;
@@ -73,16 +77,26 @@ async function main() {
 
     // Video details retrieval tool
     server.tool("getVideoDetails",
-        "Get detailed information about a YouTube video. Returns comprehensive data including video metadata, statistics, and content details. Use this when you need complete information about a specific video.",
-        { videoId: z.string() },
-        async ({ videoId }: VideoDetailsParams) => {
+        "Get detailed information about multiple YouTube videos. Returns comprehensive data including video metadata, statistics, and content details. Use this when you need complete information about specific videos.",
+        { videoIds: z.array(z.string()) },
+        async ({ videoIds }: VideoDetailsListParams) => {
             try {
-                const videoDetails = await videoManager.getVideo({
-                    videoId,
-                    parts: ["snippet", "statistics", "contentDetails"]
-                });
+                const videoPromises = videoIds.map(videoId => 
+                    videoManager.getVideo({
+                        videoId,
+                        parts: ["snippet", "statistics", "contentDetails"]
+                    })
+                );
+                const videoDetailsList = await Promise.all(videoPromises);
+                
+                // Create a map of videoId to details
+                const result = videoIds.reduce((acc, videoId, index) => {
+                    acc[videoId] = videoDetailsList[index];
+                    return acc;
+                }, {} as Record<string, any>);
+                
                 return {
-                    content: [{ type: "text", text: JSON.stringify(videoDetails, null, 2) }]
+                    content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
                 };
             } catch (error: any) {
                 return {
