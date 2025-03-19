@@ -24,6 +24,11 @@ interface TranscriptParams {
     lang?: string;
 }
 
+interface TranscriptsParams {
+    videoIds: string[];
+    lang?: string;
+}
+
 interface SearchParams {
     query: string;
     maxResults?: number;
@@ -47,6 +52,14 @@ interface TrendingParams {
 
 interface CompareVideosParams {
     videoIds: string[];
+}
+
+interface VideoEngagementRatiosParams {
+    videoIds: string[];
+}
+
+interface ChannelStatisticsParams {
+    channelIds: string[];
 }
 
 async function main() {
@@ -116,17 +129,27 @@ async function main() {
     );
 
     // Video transcript retrieval tool
-    server.tool("getTranscript",
-        "Retrieves transcript for a specific video. Returns the text content of the video's captions, useful for accessibility and content analysis. Use this when you need the spoken content of a video.",
+    server.tool("getTranscripts",
+        "Retrieves transcripts for multiple videos. Returns the text content of videos' captions, useful for accessibility and content analysis. Use this when you need the spoken content of multiple videos.",
         { 
-            videoId: z.string(),
+            videoIds: z.array(z.string()),
             lang: z.string().optional()
         },
-        async ({ videoId, lang }: TranscriptParams) => {
+        async ({ videoIds, lang }: TranscriptsParams) => {
             try {
-                const transcript = await videoManager.getTranscript(videoId, lang);
+                const transcriptPromises = videoIds.map(videoId => 
+                    videoManager.getTranscript(videoId, lang)
+                );
+                const transcripts = await Promise.all(transcriptPromises);
+                
+                // Create a map of videoId to transcript
+                const result = videoIds.reduce((acc, videoId, index) => {
+                    acc[videoId] = transcripts[index];
+                    return acc;
+                }, {} as Record<string, any>);
+                
                 return {
-                    content: [{ type: "text", text: JSON.stringify(transcript, null, 2) }]
+                    content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
                 };
             } catch (error: any) {
                 return {
@@ -170,13 +193,23 @@ async function main() {
 
     // Channel statistics retrieval tool
     server.tool("getChannelStatistics",
-        "Retrieves statistics for a specific channel. Returns detailed metrics including subscriber count, view count, and video count. Use this when you need to analyze the performance and reach of a YouTube channel.",
-        { channelId: z.string() },
-        async ({ channelId }: ChannelParams) => {
+        "Retrieves statistics for multiple channels. Returns detailed metrics including subscriber count, view count, and video count for each channel. Use this when you need to analyze the performance and reach of multiple YouTube channels.",
+        { channelIds: z.array(z.string()) },
+        async ({ channelIds }: ChannelStatisticsParams) => {
             try {
-                const statistics = await videoManager.getChannelStatistics(channelId);
+                const statisticsPromises = channelIds.map(channelId => 
+                    videoManager.getChannelStatistics(channelId)
+                );
+                const statisticsResults = await Promise.all(statisticsPromises);
+                
+                // Create a map of channelId to statistics
+                const result = channelIds.reduce((acc, channelId, index) => {
+                    acc[channelId] = statisticsResults[index];
+                    return acc;
+                }, {} as Record<string, any>);
+                
                 return {
-                    content: [{ type: "text", text: JSON.stringify(statistics, null, 2) }]
+                    content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
                 };
             } catch (error: any) {
                 return {
@@ -221,13 +254,23 @@ async function main() {
 
     // Video engagement ratio calculation tool
     server.tool("getVideoEngagementRatio",
-        "Calculates the engagement ratio for a specific video. Returns metrics such as view count, like count, comment count, and the calculated engagement ratio. Use this when you want to measure the audience interaction with a video.",
-        { videoId: z.string() },
-        async ({ videoId }: VideoDetailsParams) => {
+        "Calculates the engagement ratio for multiple videos. Returns metrics such as view count, like count, comment count, and the calculated engagement ratio for each video. Use this when you want to measure the audience interaction with videos.",
+        { videoIds: z.array(z.string()) },
+        async ({ videoIds }: VideoEngagementRatiosParams) => {
             try {
-                const engagementRatio = await videoManager.getVideoEngagementRatio(videoId);
+                const engagementPromises = videoIds.map(videoId => 
+                    videoManager.getVideoEngagementRatio(videoId)
+                );
+                const engagementResults = await Promise.all(engagementPromises);
+                
+                // Create a map of videoId to engagement data
+                const result = videoIds.reduce((acc, videoId, index) => {
+                    acc[videoId] = engagementResults[index];
+                    return acc;
+                }, {} as Record<string, any>);
+                
                 return {
-                    content: [{ type: "text", text: JSON.stringify(engagementRatio, null, 2) }]
+                    content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
                 };
             } catch (error: any) {
                 return {
