@@ -25,7 +25,13 @@ The YouTube MCP Server has successfully implemented the following functionality:
    - ✅ `getChannelStatistics`: Retrieves channel metrics
    - ✅ `getChannelTopVideos`: Gets most-viewed videos from a channel
 
-5. **Trend Analysis**
+5. **Playlist Management**
+   - ✅ `getPlaylistDetails`: Retrieves comprehensive playlist information
+   - ✅ `getPlaylistVideos`: Gets all videos within a playlist
+   - ✅ `searchPublicPlaylists`: Searches for playlists by keywords
+   - ✅ `getChannelPlaylists`: Retrieves playlists from a specific channel
+
+6. **Trend Analysis**
    - ✅ `getTrendingVideos`: Retrieves trending videos by region and category
    - ✅ `compareVideos`: Compares statistics across multiple videos
 
@@ -41,7 +47,7 @@ While the core functionality is complete, there are several areas for potential 
 
 1. **Additional Tools**
    - ⬜ Comment retrieval and analysis
-   - ⬜ Playlist management
+   - ✅ Playlist management
    - ⬜ Historical trend analysis
    - ⬜ Tag analysis and categorization
 

@@ -2,6 +2,7 @@
 
 import 'dotenv/config';
 import { VideoManagement } from './functions/videos.js';
+import { PlaylistManagement } from './functions/playlists.js';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
@@ -66,8 +67,29 @@ interface ChannelStatisticsParams {
     channelIds: string[];
 }
 
+interface PlaylistDetailsParams {
+    playlistId: string;
+}
+
+interface PlaylistVideosParams {
+    playlistId: string;
+    maxResults?: number;
+}
+
+interface SearchPlaylistsParams {
+    query: string;
+    maxResults?: number;
+    channelId?: string;
+}
+
+interface ChannelPlaylistsParams {
+    channelId: string;
+    maxResults?: number;
+}
+
 async function main() {
     const videoManager = new VideoManagement();
+    const playlistManager = new PlaylistManagement();
     
     // Create MCP server
     const server = new McpServer({
@@ -337,6 +359,126 @@ async function main() {
                 const comparison = await videoManager.compareVideos({ videoIds });
                 return {
                     content: [{ type: "text", text: JSON.stringify(comparison, null, 2) }]
+                };
+            } catch (error: any) {
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            error: error.message,
+                            details: error.response?.data
+                        }, null, 2) 
+                    }]
+                };
+            }
+        }
+    );
+
+    // Playlist details retrieval tool
+    server.tool("getPlaylistDetails",
+        "Retrieves detailed information about a specific YouTube playlist. Returns comprehensive metadata including title, description, channel information, and video count. Use this when you need complete information about a particular playlist.",
+        { playlistId: z.string() },
+        async ({ playlistId }: PlaylistDetailsParams) => {
+            try {
+                const playlistDetails = await playlistManager.getPlaylistDetails({
+                    playlistId,
+                    parts: ["snippet", "contentDetails", "status"]
+                });
+                
+                return {
+                    content: [{ type: "text", text: JSON.stringify(playlistDetails, null, 2) }]
+                };
+            } catch (error: any) {
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            error: error.message,
+                            details: error.response?.data
+                        }, null, 2) 
+                    }]
+                };
+            }
+        }
+    );
+
+    // Playlist videos retrieval tool
+    server.tool("getPlaylistVideos",
+        "Retrieves all videos contained in a specific YouTube playlist. Returns detailed information about each video including title, description, channel information, and statistics. Use this when you need to analyze the content of a playlist.",
+        { 
+            playlistId: z.string(),
+            maxResults: z.number().optional()
+        },
+        async ({ playlistId, maxResults }: PlaylistVideosParams) => {
+            try {
+                const playlistVideos = await playlistManager.getPlaylistVideos({
+                    playlistId,
+                    maxResults
+                });
+                
+                return {
+                    content: [{ type: "text", text: JSON.stringify(playlistVideos, null, 2) }]
+                };
+            } catch (error: any) {
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            error: error.message,
+                            details: error.response?.data
+                        }, null, 2) 
+                    }]
+                };
+            }
+        }
+    );
+
+    // Playlist search tool
+    server.tool("searchPublicPlaylists",
+        "Searches for public playlists based on a query string. Returns a list of playlists matching the search criteria, including titles, descriptions, and channel information. Use this when you need to find playlists related to specific topics or keywords.",
+        { 
+            query: z.string(),
+            maxResults: z.number().optional(),
+            channelId: z.string().optional()
+        },
+        async ({ query, maxResults, channelId }: SearchPlaylistsParams) => {
+            try {
+                const searchResults = await playlistManager.searchPublicPlaylists({
+                    query,
+                    maxResults,
+                    channelId
+                });
+                
+                return {
+                    content: [{ type: "text", text: JSON.stringify(searchResults, null, 2) }]
+                };
+            } catch (error: any) {
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            error: error.message,
+                            details: error.response?.data
+                        }, null, 2) 
+                    }]
+                };
+            }
+        }
+    );
+
+    // Channel playlists retrieval tool
+    server.tool("getChannelPlaylists",
+        "Retrieves all public playlists from a specific YouTube channel. Returns a list of playlists with their details, including titles, descriptions, and video counts. Use this when you need to analyze the playlist organization of a channel.",
+        { 
+            channelId: z.string(),
+            maxResults: z.number().optional()
+        },
+        async ({ channelId, maxResults }: ChannelPlaylistsParams) => {
+            try {
+                const channelPlaylists = await playlistManager.getChannelPlaylists(channelId, maxResults);
+                
+                return {
+                    content: [{ type: "text", text: JSON.stringify(channelPlaylists, null, 2) }]
                 };
             } catch (error: any) {
                 return {

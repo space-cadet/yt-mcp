@@ -21,6 +21,12 @@ A Model Context Protocol (MCP) server implementation utilizing the YouTube Data 
 * Get top-performing videos from a channel
 * Analyze channel growth and engagement metrics
 
+### Playlist Management
+* Retrieve detailed playlist information
+* Get all videos within a playlist
+* Search for public playlists by keywords
+* Get all public playlists from a specific channel
+
 ### Trend Analysis
 * View trending videos by region and category
 * Compare performance metrics across multiple videos
@@ -41,6 +47,10 @@ The server provides the following MCP tools:
 | `getVideoEngagementRatio` | Calculate engagement metrics for multiple videos (views, likes, comments, and engagement ratio) | `videoIds` (array) |
 | `getTrendingVideos` | Get currently popular videos by region and category | `regionCode` (optional), `categoryId` (optional), `maxResults` (optional) |
 | `compareVideos` | Compare statistics across multiple videos | `videoIds` (array) |
+| `getPlaylistDetails` | Get detailed information about a specific YouTube playlist | `playlistId` |
+| `getPlaylistVideos` | Retrieve all videos contained in a specific playlist | `playlistId`, `maxResults` (optional) |
+| `searchPublicPlaylists` | Search for public playlists based on a query string | `query`, `maxResults` (optional), `channelId` (optional) |
+| `getChannelPlaylists` | Get all public playlists from a specific channel | `channelId`, `maxResults` (optional) |
 
 ## Installation
 
