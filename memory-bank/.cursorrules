@@ -1,0 +1,87 @@
+# YouTube MCP Server Project Rules
+
+## Project Patterns
+
+1. **API Interactions**
+   - All YouTube API calls should be wrapped in try/catch blocks with specific error messages
+   - Use pagination for endpoints that return multiple results
+   - Always provide sensible defaults for optional parameters
+   - Handle rate limiting and quota limitations gracefully
+
+2. **TypeScript Usage**
+   - Use explicit interface definitions for all parameter types
+   - Prefer type-safe approaches with proper TypeScript practices
+   - Document function parameters and return types with JSDoc comments
+   - Use type guards where appropriate to handle type narrowing
+
+3. **MCP Implementation**
+   - Follow MCP specification for tool registration and response formatting
+   - Use Zod for parameter validation in all tools
+   - Provide clear, descriptive tool documentation
+   - Format tool responses as JSON strings within the MCP content format
+
+4. **Error Handling**
+   - Use consistent error message formats across all functions
+   - Include both user-friendly messages and technical details where helpful
+   - Preserve original error information where possible
+   - Follow the error response format specified by MCP
+
+5. **Code Organization**
+   - Group related functionality in logical classes/modules
+   - Use ES Module import/export syntax
+   - Keep the core VideoManagement class focused and cohesive
+   - Extract complex logic into helper functions when appropriate
+
+## User Preferences
+
+1. **Documentation**
+   - Maintain comprehensive memory-bank documentation
+   - Update documentation when implementing significant changes
+   - Ensure code changes are reflected in the progress.md file
+   - Document any new environment variables or configuration options
+
+2. **Code Style**
+   - Follow the existing pattern of early returns for error conditions
+   - Use arrow functions for callbacks and handlers
+   - Maintain consistent indentation and formatting
+   - Use descriptive variable and function names
+
+3. **Implementation Approach**
+   - Focus on one file at a time
+   - Make incremental changes rather than large-scale refactoring
+   - Confirm changes before moving to the next task
+   - Fix errors immediately when they arise
+
+4. **Feature Development**
+   - Plan features before implementation
+   - Break complex features into smaller, manageable tasks
+   - Consider backward compatibility when adding new functionality
+   - Test new features in isolation before integration
+
+## Best Practices
+
+1. **Security Considerations**
+   - Never hardcode API keys or credentials
+   - Validate all user inputs before passing to external APIs
+   - Use environment variables for sensitive configuration
+   - Be cautious with error messages to avoid leaking sensitive details
+
+2. **Performance Optimization**
+   - Consider batching requests where appropriate
+   - Implement pagination for large result sets
+   - Be mindful of memory usage when processing large responses
+   - Consider response size when returning data to clients
+
+3. **Maintainability**
+   - Write DRY (Don't Repeat Yourself) code
+   - Extract common functionality into reusable helper functions
+   - Use consistent naming conventions
+   - Add comments for complex logic or business rules
+
+4. **Testing**
+   - Unit test core functionality
+   - Consider edge cases in tests
+   - Mock external dependencies in tests
+   - Validate both success and error paths
+
+These rules capture the key patterns, preferences, and best practices specific to the YouTube MCP Server project.
