@@ -10,6 +10,7 @@ The YouTube MCP Server has successfully implemented the following functionality:
    - ✅ Tool registration and execution
    - ✅ Parameter validation with Zod schemas
    - ✅ Example prompts via prompts/list method
+   - ✅ Multiple startup methods for reliable Claude integration
 
 2. **Video Information Tools**
    - ✅ `getVideoDetails`: Retrieves comprehensive video information
@@ -99,6 +100,8 @@ While there are no critical issues, there are some limitations to be aware of:
 5. **Language Support**: Transcript retrieval has limitations based on available caption tracks for videos.
 
 6. **Type Declarations**: The TypeScript type declarations for YouTube API responses were updated to properly handle GaxiosResponse types. This required adding the gaxios package as a dependency.
+
+7. **MCP Server Integration**: When using with Claude, the server must be started directly using Node.js rather than through pnpm to avoid JSON-RPC communication interference. The provided wrapper scripts and alternative startup methods address this issue.
 
 These issues are inherent to the YouTube API rather than problems with the implementation, but they should be considered when using the server.
 

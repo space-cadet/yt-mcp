@@ -54,6 +54,21 @@ To set up the development environment:
    npm run build
    ```
 
+6. **Running the MCP Server**
+   ```bash
+   # Standard method
+   npm run start
+   
+   # Direct method (bypasses npm/pnpm output)
+   node ./dist/index.js
+   
+   # Using wrapper script
+   ./start.sh YOUTUBE_API_KEY LANGUAGE_CODE
+   
+   # Using Node.js wrapper
+   node ./run-mcp.js
+   ```
+
 ## Technical Constraints
 
 1. **YouTube API Limitations**

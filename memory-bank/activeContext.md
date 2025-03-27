@@ -16,12 +16,18 @@ The current focus is on:
 
 The most significant recent changes include:
 
-1. **MCP Prompts Implementation**: Added support for the "prompts/list" MCP method:
+1. **MCP Server Integration Fixes**: Fixed issues with Claude integration:
+   - Created wrapper scripts (`start.sh` and `run-mcp.js`) for more reliable execution
+   - Replaced `console.error()` with `process.stderr.write()` to ensure proper stream handling
+   - Added alternative startup methods to bypass pnpm output interference
+   - Updated package.json with new direct execution script options
+
+2. **MCP Prompts Implementation**: Added support for the "prompts/list" MCP method:
    - Created a new prompts.ts file with example usage prompts
    - Configured the MCP server to handle the prompts/list method
    - Added 10 example prompts demonstrating different use cases for the YouTube MCP tools
 
-2. **TypeScript Type Declarations Fix**: Resolved issues with TypeScript type declarations in the playlists.ts file:
+3. **TypeScript Type Declarations Fix**: Resolved issues with TypeScript type declarations in the playlists.ts file:
    - Added `gaxios` package as a dependency to import the `GaxiosResponse` type
    - Fixed type declarations for YouTube API responses
    - Added explicit type annotations for callbacks in array methods

@@ -49,6 +49,12 @@ The YouTube MCP Server follows a modular architecture designed around the Model 
    - Provides sample prompts demonstrating how to use the YouTube MCP tools
    - Helps users understand the capabilities of the server
    - Supports the prompts/list method in the MCP protocol
+   
+4. **Wrapper Scripts**
+   - **start.sh**: A bash script for direct server execution
+   - **run-mcp.js**: A Node.js wrapper for proper process handling
+   - Both provide clean execution paths that avoid npm/pnpm output interference
+   - Essential for reliable Claude integration via MCP
 
 3. **StdioServerTransport**
    - Handles communication between the MCP server and client

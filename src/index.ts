@@ -10,7 +10,7 @@ import { examplePrompts } from './prompts.js';
 
 // Environment variable validation
 if (!process.env.YOUTUBE_API_KEY) {
-  console.error('Error: YOUTUBE_API_KEY environment variable is not set.');
+  process.stderr.write('Error: YOUTUBE_API_KEY environment variable is not set.\n');
   process.exit(1);
 }
 
@@ -95,14 +95,14 @@ async function main() {
     // Create MCP server
     const server = new McpServer({
         name: "YouTube",
-        version: "1.0.0",
-        methods: {
-            "prompts/list": async () => {
-                return {
-                    prompts: examplePrompts
-                };
-            }
-        }
+        version: "1.0.0"
+    });
+    
+    // Register custom methods directly
+    server.registerMethod("prompts/list", async () => {
+        return {
+            prompts: examplePrompts
+        };
     });
 
     // Video details retrieval tool
@@ -506,10 +506,10 @@ async function main() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
 
-    console.error('YouTube MCP server has started.');
+    process.stderr.write('YouTube MCP server has started.\n');
 }
 
 main().catch((err) => {
-    console.error('Error occurred during server execution:', err);
+    process.stderr.write(`Error occurred during server execution: ${err}\n`);
     process.exit(1);
 }); 
