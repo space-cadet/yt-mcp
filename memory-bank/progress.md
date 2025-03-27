@@ -9,6 +9,7 @@ The YouTube MCP Server has successfully implemented the following functionality:
    - ✅ Standard I/O transport layer
    - ✅ Tool registration and execution
    - ✅ Parameter validation with Zod schemas
+   - ✅ Example prompts via prompts/list method
 
 2. **Video Information Tools**
    - ✅ `getVideoDetails`: Retrieves comprehensive video information
@@ -96,6 +97,8 @@ While there are no critical issues, there are some limitations to be aware of:
 4. **Large Result Sets**: Very large result sets (hundreds or thousands of items) may require multiple API calls and pagination handling.
 
 5. **Language Support**: Transcript retrieval has limitations based on available caption tracks for videos.
+
+6. **Type Declarations**: The TypeScript type declarations for YouTube API responses were updated to properly handle GaxiosResponse types. This required adding the gaxios package as a dependency.
 
 These issues are inherent to the YouTube API rather than problems with the implementation, but they should be considered when using the server.
 

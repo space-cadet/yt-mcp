@@ -6,6 +6,7 @@ import { PlaylistManagement } from './functions/playlists.js';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { examplePrompts } from './prompts.js';
 
 // Environment variable validation
 if (!process.env.YOUTUBE_API_KEY) {
@@ -94,7 +95,14 @@ async function main() {
     // Create MCP server
     const server = new McpServer({
         name: "YouTube",
-        version: "1.0.0"
+        version: "1.0.0",
+        methods: {
+            "prompts/list": async () => {
+                return {
+                    prompts: examplePrompts
+                };
+            }
+        }
     });
 
     // Video details retrieval tool

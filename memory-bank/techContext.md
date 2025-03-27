@@ -12,6 +12,7 @@ The YouTube MCP Server is built using the following technologies:
 2. **Framework & Libraries**
    - **@modelcontextprotocol/sdk** (v1.7.0): MCP implementation library
    - **googleapis** (v129.0.0): Official Google API client library
+   - **gaxios** (v6.7.1): HTTP client used by googleapis for requests
    - **youtube-captions-scraper** (v2.0.0): Library for fetching YouTube transcripts
    - **zod** (v3.24.2): Schema validation library
    - **dotenv** (v16.4.7): Environment variable management

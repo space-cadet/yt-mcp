@@ -20,7 +20,7 @@
     "lint": "eslint src/**/*.ts",
     "test": "jest",
     "prepare": "npm run build",
-    "postinstall": "chmod +x ./dist/index.js"
+    "postbuild": "chmod +x ./dist/index.js"
   },
   "keywords": [
     "mcp",
@@ -33,6 +33,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",
     "dotenv": "^16.4.7",
+    "gaxios": "6.7.1",
     "googleapis": "^129.0.0",
     "pnpm": "^10.6.4",
     "youtube-captions-scraper": "^2.0.0",

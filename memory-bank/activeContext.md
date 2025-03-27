@@ -16,13 +16,24 @@ The current focus is on:
 
 The most significant recent changes include:
 
-1. **Playlist Functionality Implementation**: Added comprehensive support for working with YouTube playlists, including:
+1. **MCP Prompts Implementation**: Added support for the "prompts/list" MCP method:
+   - Created a new prompts.ts file with example usage prompts
+   - Configured the MCP server to handle the prompts/list method
+   - Added 10 example prompts demonstrating different use cases for the YouTube MCP tools
+
+2. **TypeScript Type Declarations Fix**: Resolved issues with TypeScript type declarations in the playlists.ts file:
+   - Added `gaxios` package as a dependency to import the `GaxiosResponse` type
+   - Fixed type declarations for YouTube API responses
+   - Added explicit type annotations for callbacks in array methods
+   - Fixed circular reference type errors
+
+2. **Playlist Functionality Implementation**: Added comprehensive support for working with YouTube playlists, including:
    - Retrieving detailed playlist information
    - Getting videos contained in playlists
    - Searching for public playlists
    - Retrieving playlists from specific channels
 
-2. **Memory Bank Documentation**:
+3. **Memory Bank Documentation**:
    - Created `projectbrief.md` to define the project scope and requirements
    - Created `productContext.md` to outline the problems solved and user experience goals
    - Created `systemPatterns.md` to document the architecture and design patterns

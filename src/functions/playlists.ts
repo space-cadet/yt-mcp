@@ -1,4 +1,5 @@
 import { google, youtube_v3 } from 'googleapis';
+import { GaxiosResponse } from 'gaxios';
 
 export interface PlaylistOptions {
   playlistId: string;
@@ -63,7 +64,7 @@ export class PlaylistManagement {
       const targetResults = Math.min(maxResults, this.ABSOLUTE_MAX_RESULTS);
       
       while (playlistItems.length < targetResults) {
-        const response = await this.youtube.playlistItems.list({
+        const response: GaxiosResponse<youtube_v3.Schema$PlaylistItemListResponse> = await this.youtube.playlistItems.list({
           part: parts,
           playlistId: playlistId,
           maxResults: Math.min(this.MAX_RESULTS_PER_PAGE, targetResults - playlistItems.length),
@@ -174,8 +175,8 @@ export class PlaylistManagement {
 
       // Extract playlist IDs
       const playlistIds = response.data.items
-        .map(item => item.id?.playlistId)
-        .filter((id): id is string => id !== undefined);
+        .map((item: any) => item.id?.playlistId)
+        .filter((id: any): id is string => id !== undefined);
 
       if (playlistIds.length === 0) {
         return [];
@@ -195,7 +196,7 @@ export class PlaylistManagement {
         }
       }
 
-      return detailedPlaylists.map(playlist => ({
+      return detailedPlaylists.map((playlist: any) => ({
         id: playlist.id,
         title: playlist.snippet?.title,
         description: playlist.snippet?.description,
@@ -228,7 +229,7 @@ export class PlaylistManagement {
         return [];
       }
 
-      return response.data.items.map(playlist => ({
+      return response.data.items.map((playlist: any) => ({
         id: playlist.id,
         title: playlist.snippet?.title,
         description: playlist.snippet?.description,

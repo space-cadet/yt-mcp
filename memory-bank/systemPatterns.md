@@ -37,12 +37,18 @@ The YouTube MCP Server follows a modular architecture designed around the Model 
    - Registers all available tools with descriptions and parameter schemas
    - Handles request/response lifecycle
    - Manages communication through the server transport
+   - Implements the prompts/list method for example prompts
 
 2. **VideoManagement Class (videos.ts)**
    - Core service layer that encapsulates YouTube API interactions
    - Provides methods for various YouTube operations
    - Handles pagination, error management, and data transformation
    - Maintains YouTube API client initialization
+
+3. **Example Prompts (prompts.ts)**
+   - Provides sample prompts demonstrating how to use the YouTube MCP tools
+   - Helps users understand the capabilities of the server
+   - Supports the prompts/list method in the MCP protocol
 
 3. **StdioServerTransport**
    - Handles communication between the MCP server and client
