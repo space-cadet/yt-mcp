@@ -7,6 +7,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { examplePrompts } from './prompts.js';
+import { oauthManager } from './utils/oauth.js';
 
 // Environment variable validation
 if (!process.env.YOUTUBE_API_KEY) {
@@ -15,7 +16,7 @@ if (!process.env.YOUTUBE_API_KEY) {
 }
 
 // Default subtitle language setting
-const defaultTranscriptLang = process.env.YOUTUBE_TRANSCRIPT_LANG || 'ko';
+const defaultTranscriptLang = process.env.YOUTUBE_TRANSCRIPT_LANG || 'en';
 
 interface VideoDetailsParams {
     videoId: string;
@@ -495,6 +496,82 @@ async function main() {
                         text: JSON.stringify({
                             error: error.message,
                             details: error.response?.data
+                        }, null, 2) 
+                    }]
+                };
+            }
+        }
+    );
+
+    // My playlists retrieval tool (requires OAuth)
+    server.tool("getMyPlaylists",
+        "Retrieves your own playlists from YouTube, including private playlists. Requires OAuth authentication. Use this to get detailed information about your personal playlists.",
+        { 
+            maxResults: z.number().optional()
+        },
+        async ({ maxResults }: { maxResults?: number }) => {
+            try {
+                // Check if OAuth is initialized
+                const isAuthenticated = await oauthManager.isAuthenticated();
+                
+                if (!isAuthenticated) {
+                    return {
+                        content: [{ 
+                            type: "text", 
+                            text: JSON.stringify({
+                                error: "OAuth authentication required",
+                                message: "Please authenticate with YouTube using the auth-cli.js script first.",
+                                authRequired: true
+                            }, null, 2) 
+                        }]
+                    };
+                }
+                
+                // Get my playlists
+                const myPlaylists = await playlistManager.getMyPlaylists(maxResults);
+                
+                return {
+                    content: [{ type: "text", text: JSON.stringify(myPlaylists, null, 2) }]
+                };
+            } catch (error: any) {
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            error: error.message,
+                            details: error.response?.data
+                        }, null, 2) 
+                    }]
+                };
+            }
+        }
+    );
+
+    // OAuth status check tool
+    server.tool("checkOAuthStatus",
+        "Checks if OAuth authentication is available for accessing private YouTube content.",
+        {},
+        async () => {
+            try {
+                const isAuthenticated = await oauthManager.isAuthenticated();
+                
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            authenticated: isAuthenticated,
+                            message: isAuthenticated 
+                                ? "OAuth authentication is active. You can access private playlists."
+                                : "Not authenticated. Use the auth-cli.js script to authenticate."
+                        }, null, 2) 
+                    }]
+                };
+            } catch (error: any) {
+                return {
+                    content: [{ 
+                        type: "text", 
+                        text: JSON.stringify({
+                            error: error.message
                         }, null, 2) 
                     }]
                 };
