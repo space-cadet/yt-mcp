@@ -32,12 +32,19 @@ The YouTube MCP Server has successfully implemented the following functionality:
    - ✅ `getPlaylistVideos`: Gets all videos within a playlist
    - ✅ `searchPublicPlaylists`: Searches for playlists by keywords
    - ✅ `getChannelPlaylists`: Retrieves playlists from a specific channel
+   - ✅ `getMyPlaylists`: Retrieves user's own playlists (including private ones)
 
-6. **Trend Analysis**
+6. **Authentication**
+   - ✅ OAuth 2.0 authentication flow
+   - ✅ Token management (storage, refresh, revocation)
+   - ✅ `checkOAuthStatus`: Verifies authentication status
+   - ✅ CLI tools for authentication management
+
+7. **Trend Analysis**
    - ✅ `getTrendingVideos`: Retrieves trending videos by region and category
    - ✅ `compareVideos`: Compares statistics across multiple videos
 
-6. **Infrastructure**
+8. **Infrastructure**
    - ✅ TypeScript compilation
    - ✅ npm package publication
    - ✅ Environment variable configuration
@@ -50,8 +57,10 @@ While the core functionality is complete, there are several areas for potential 
 1. **Additional Tools**
    - ⬜ Comment retrieval and analysis
    - ✅ Playlist management
+   - ✅ Authentication and private data access
    - ⬜ Historical trend analysis
    - ⬜ Tag analysis and categorization
+   - ⬜ Playlist creation and management (write operations)
 
 2. **Performance Optimizations**
    - ⬜ Response caching layer
@@ -102,6 +111,10 @@ While there are no critical issues, there are some limitations to be aware of:
 6. **Type Declarations**: The TypeScript type declarations for YouTube API responses were updated to properly handle GaxiosResponse types. This required adding the gaxios package as a dependency.
 
 7. **MCP Server Integration**: When using with Claude, the server must be started directly using Node.js rather than through pnpm to avoid JSON-RPC communication interference. The provided wrapper scripts and alternative startup methods address this issue.
+
+8. **OAuth Requirements**: OAuth authentication requires Google Cloud Console configuration and agreement to Google's API Services User Data Policy, which may require a privacy policy for applications that become public.
+
+9. **OAuth Port Configuration**: The OAuth callback server needs to run on a port that matches what's configured in Google Cloud Console. Multiple authorized redirect URIs can be registered to support different ports.
 
 These issues are inherent to the YouTube API rather than problems with the implementation, but they should be considered when using the server.
 
