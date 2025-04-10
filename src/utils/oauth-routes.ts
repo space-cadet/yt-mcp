@@ -15,6 +15,21 @@ export class OAuthServer {
   constructor(port: number = 3000, callbackPath: string = '/oauth2callback') {
     this.port = port;
     this.callbackPath = callbackPath;
+    
+    // Extract the port from the redirect URI if it exists
+    const redirectUri = process.env.OAUTH_REDIRECT_URI;
+    if (redirectUri) {
+      try {
+        const url = new URL(redirectUri);
+        if (url.port) {
+          this.port = parseInt(url.port, 10);
+          console.log(`Using port ${this.port} from OAUTH_REDIRECT_URI`);
+        }
+        this.callbackPath = url.pathname;
+      } catch (e) {
+        console.warn(`Invalid OAUTH_REDIRECT_URI: ${redirectUri}. Using defaults.`);
+      }
+    }
   }
 
   /**

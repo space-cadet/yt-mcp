@@ -7,7 +7,8 @@ import { AuthCLI } from './utils/cli-auth.js';
 // Define command-line arguments
 const args = process.argv.slice(2);
 const command = args[0] || 'status';
-const port = parseInt(args[1] || '3000', 10);
+// Use port from environment variable or command line or default to 3000
+const port = parseInt(process.env.OAUTH_PORT || args[1] || '3000', 10);
 
 // Create Authentication CLI
 const authCli = new AuthCLI(port);
