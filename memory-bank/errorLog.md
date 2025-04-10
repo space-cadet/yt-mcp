@@ -32,6 +32,26 @@ OAuth callback server needed to run on the exact port configured in Google Cloud
 2. Added code to extract port from `OAUTH_REDIRECT_URI` environment variable
 3. Updated documentation to recommend registering multiple redirect URIs in Google Cloud Console
 
+### [2025-04-10] OAuth Redirect URI Mismatch
+
+#### Issue
+Encountered Error 400: redirect_uri_mismatch when attempting OAuth flow, despite correct configuration:
+- Authorized redirect URI: http://localhost:3000/oauth2callback
+- JavaScript origin: http://localhost:3000
+- OAUTH_PORT: 3000
+
+#### Troubleshooting
+1. Verified exact URI match (no trailing whitespace/slashes)
+2. Confirmed client ID matches Google Cloud Console
+3. Tested in multiple browsers/incognito mode
+4. Verified server running on correct port (3000)
+5. Checked for Google's propagation delay (waited 1+ hours)
+
+#### Current Status
+- Configuration appears correct
+- Most likely waiting for Google's changes to fully propagate
+- Recommended waiting additional time or creating new credentials
+
 ## Previous Errors
 
 ### [2025-03-25] TypeScript Type Declaration Errors

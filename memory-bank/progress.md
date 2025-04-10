@@ -112,7 +112,7 @@ While there are no critical issues, there are some limitations to be aware of:
 
 7. **MCP Server Integration**: When using with Claude, the server must be started directly using Node.js rather than through pnpm to avoid JSON-RPC communication interference. The provided wrapper scripts and alternative startup methods address this issue.
 
-8. **OAuth Requirements**: OAuth authentication requires Google Cloud Console configuration and agreement to Google's API Services User Data Policy, which may require a privacy policy for applications that become public.
+8. **OAuth Requirements**: OAuth authentication requires Google Cloud Console configuration and agreement to Google's API Services User Data Policy, which may require a privacy policy for applications that become public. Currently troubleshooting redirect URI mismatch issues (documented in errorLog.md).
 
 9. **OAuth Port Configuration**: The OAuth callback server needs to run on a port that matches what's configured in Google Cloud Console. Multiple authorized redirect URIs can be registered to support different ports.
 

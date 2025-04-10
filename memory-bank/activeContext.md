@@ -5,13 +5,9 @@
 The YouTube MCP Server is currently a functional implementation that provides access to YouTube data through a standardized Model Context Protocol (MCP) interface. The core functionality is complete, with all primary tools implemented and operational.
 
 The current focus is on:
-
 1. **OAuth Implementation**: We have implemented OAuth 2.0 authentication to access private YouTube playlists and content. This major enhancement enables users to authenticate with their Google account and access their personal YouTube data.
-
 2. **Documentation**: Updating comprehensive documentation in the memory-bank to reflect the new OAuth capabilities and provide guidance on setup and usage.
-
 3. **Security and Privacy**: Ensuring OAuth implementation follows best practices for security and user privacy, including providing a privacy policy template.
-
 4. **Potential Enhancements**: Identifying opportunities for improving the current implementation with additional features, better error handling, or performance optimizations.
 
 ## Recent Changes
@@ -25,6 +21,7 @@ The most significant recent changes include:
    - Added new MCP tools for OAuth status and private playlists access
    - Updated existing playlist tools to support authenticated requests
    - Added port configuration flexibility via environment variables
+   - Currently troubleshooting redirect URI mismatch issues (documented in errorLog.md)
 
 2. **TypeScript Improvements**:
    - Fixed TypeScript errors related to OAuth implementation
