@@ -63,7 +63,7 @@ export class PlaylistManagement {
     // Return API key-based client
     return google.youtube({
       version: 'v3',
-      auth: process.env.YOUTUBE_API_KEY
+      auth: process.env.YOUTUBE_API_KEY || ''
     });
   }
 

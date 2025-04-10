@@ -2,6 +2,7 @@
 
 import 'dotenv/config';
 import { AuthCLI } from './utils/cli-auth.js';
+// Add a shebang line at the top to make it executable
 
 // Define command-line arguments
 const args = process.argv.slice(2);
