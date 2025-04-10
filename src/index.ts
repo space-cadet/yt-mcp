@@ -99,12 +99,21 @@ async function main() {
         version: "1.0.0"
     });
     
-    // Register custom methods directly
-    server.registerMethod("prompts/list", async () => {
-        return {
-            prompts: examplePrompts
-        };
-    });
+    // Register prompts list tool instead of using registerMethod
+    server.tool("prompts/list",
+        "Get example prompts for YouTube MCP",
+        {},
+        async () => {
+            return {
+                content: [{ 
+                    type: "text", 
+                    text: JSON.stringify({
+                        prompts: examplePrompts
+                    }, null, 2) 
+                }]
+            };
+        }
+    );
 
     // Video details retrieval tool
     server.tool("getVideoDetails",

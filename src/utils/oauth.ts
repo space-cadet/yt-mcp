@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import { OAuth2Client } from 'google-auth-library';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -17,7 +18,7 @@ interface TokenStorage {
 }
 
 export class OAuthManager {
-  private oauth2Client;
+  private oauth2Client: OAuth2Client;
   private tokensPath: string;
   private isInitialized: boolean = false;
 
@@ -125,8 +126,10 @@ export class OAuthManager {
     
     if (!expiryDate || Date.now() >= expiryDate - 5 * 60 * 1000) {
       try {
-        await this.oauth2Client.refreshToken(credentials.refresh_token as string);
-        await this.saveTokens(this.oauth2Client.credentials as TokenData);
+        // Use the refreshAccessToken method instead of the protected refreshToken
+        const refreshTokenResponse = await this.oauth2Client.refreshAccessToken();
+        const tokens = refreshTokenResponse.credentials;
+        await this.saveTokens(tokens as TokenData);
       } catch (error) {
         console.error('Error refreshing token:', error);
         throw error;
@@ -136,8 +139,9 @@ export class OAuthManager {
 
   /**
    * Get the OAuth2 client for API requests
+   * @returns The configured OAuth2 client
    */
-  async getOAuth2Client() {
+  async getOAuth2Client(): Promise<OAuth2Client> {
     if (!this.isInitialized) {
       await this.loadTokens();
     }
