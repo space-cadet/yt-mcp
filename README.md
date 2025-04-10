@@ -32,6 +32,35 @@ A Model Context Protocol (MCP) server implementation utilizing the YouTube Data 
 * Compare performance metrics across multiple videos
 * Discover popular content in specific categories
 
+## OAuth Authentication for Private Content
+
+This MCP server supports OAuth authentication to access private YouTube content including your personal playlists. To set up and use OAuth:
+
+1. **Create OAuth Credentials**:
+   - Go to the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+   - Create OAuth 2.0 Client ID credentials (Web application type)
+   - Set the authorized redirect URI to `http://localhost:3000/oauth2callback`
+   - Add the client ID and secret to your `.env` file
+
+2. **Authenticate**:
+   ```bash
+   # Start the OAuth flow
+   npm run auth
+   # This will display a URL to visit in your browser
+   ```
+
+3. **Verify Authentication Status**:
+   ```bash
+   npm run auth:status
+   ```
+
+4. **Revoke Authentication**:
+   ```bash
+   npm run auth:revoke
+   ```
+
+Once authenticated, you can access your private playlists using the `getMyPlaylists` tool.
+
 ## Available Tools
 
 The server provides the following MCP tools:
@@ -51,6 +80,8 @@ The server provides the following MCP tools:
 | `getPlaylistVideos` | Retrieve all videos contained in a specific playlist | `playlistId`, `maxResults` (optional) |
 | `searchPublicPlaylists` | Search for public playlists based on a query string | `query`, `maxResults` (optional), `channelId` (optional) |
 | `getChannelPlaylists` | Get all public playlists from a specific channel | `channelId`, `maxResults` (optional) |
+| `getMyPlaylists` | Get your own playlists (including private ones) | `maxResults` (optional) |
+| `checkOAuthStatus` | Check if OAuth authentication is active | None |
 
 ## Installation
 
@@ -76,7 +107,13 @@ npm install
 ## Environment Configuration
 Set the following environment variables:
 * `YOUTUBE_API_KEY`: YouTube Data API key (required)
-* `YOUTUBE_TRANSCRIPT_LANG`: Default caption language (optional, default: 'ko')
+* `YOUTUBE_TRANSCRIPT_LANG`: Default caption language (optional, default: 'en')
+
+### OAuth Configuration (for Private Playlists)
+To access private playlists and content, you'll need to configure OAuth:
+* `GOOGLE_OAUTH_CLIENT_ID`: OAuth 2.0 client ID
+* `GOOGLE_OAUTH_CLIENT_SECRET`: OAuth 2.0 client secret
+* `OAUTH_REDIRECT_URI`: OAuth callback URL (default: http://localhost:3000/oauth2callback)
 
 ## MCP Client Configuration
 Add the following to your Claude Desktop configuration file:

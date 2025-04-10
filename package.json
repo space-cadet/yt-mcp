@@ -22,7 +22,10 @@
     "lint": "eslint src/**/*.ts",
     "test": "jest",
     "prepare": "npm run build",
-    "postbuild": "chmod +x ./dist/index.js"
+    "postbuild": "chmod +x ./dist/index.js && chmod +x ./dist/auth-cli.js",
+    "auth": "node ./dist/auth-cli.js auth",
+    "auth:status": "node ./dist/auth-cli.js status",
+    "auth:revoke": "node ./dist/auth-cli.js revoke"
   },
   "keywords": [
     "mcp",
