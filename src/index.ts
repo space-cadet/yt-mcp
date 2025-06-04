@@ -100,7 +100,7 @@ async function main() {
     });
     
     // Register prompts list tool instead of using registerMethod
-    server.tool("prompts/list",
+    server.tool("promptsList",
         "Get example prompts for YouTube MCP",
         {},
         async () => {

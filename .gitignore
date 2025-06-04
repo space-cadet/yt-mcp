@@ -86,3 +86,7 @@ Thumbs.db
 
 # Test coverage
 coverage/ 
+memory-bank/tasks/T2.md
+
+# auth tokens
+tokens.json

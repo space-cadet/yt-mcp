@@ -4,6 +4,14 @@ This file tracks specific file and folder changes in the project.
 
 ### 2025-06-04
 
+#### 12:21 - T2: Created Testing MCP Tools Task
+- Updated `/memory-bank/tasks.md` - Added T2 task, marked T1 as completed
+- Created `/memory-bank/tasks/T2.md` - Individual task file for MCP tools testing
+- Updated `/memory-bank/session_cache.md` - Switched focus to T2, moved T1 to completed
+
+#### 12:15 - T1: Fixed MCP Tool Naming Issue
+- Fixed `src/index.ts` - Changed tool name from "prompts/list" to "promptsList" to comply with MCP naming pattern ^[a-zA-Z0-9_-]{1,64}$
+
 #### 12:07 - T1: Task ID Standardization  
 - Renamed `/memory-bank/tasks/T001.md` to `/memory-bank/tasks/T1.md`
 - Updated `/memory-bank/tasks.md` - Changed T001 references to T1
