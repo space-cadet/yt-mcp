@@ -1,5 +1,5 @@
 # YouTube MCP Server
-[![smithery badge](https://smithery.ai/badge/@icraft2170/youtube-data-mcp-server)](https://smithery.ai/server/@icraft2170/youtube-data-mcp-server)
+[![npm version](https://badge.fury.io/js/yt-mcp.svg)](https://badge.fury.io/js/yt-mcp)
 
 A Model Context Protocol (MCP) server implementation utilizing the YouTube Data API. It allows AI language models to interact with YouTube content through a standardized interface.
 
@@ -85,22 +85,13 @@ The server provides the following MCP tools:
 
 ## Installation
 
-### Automatic Installation via Smithery
-
-Automatically install YouTube MCP Server for Claude Desktop via [Smithery](https://smithery.ai/server/@icraft2170/youtube-data-mcp-server):
-
-```bash
-npx -y @smithery/cli install @icraft2170/youtube-data-mcp-server --client claude
-```
-
-### Manual Installation
 ```bash
 # Install from npm
-npm install youtube-data-mcp-server
+npm install yt-mcp
 
 # Or clone repository
-git clone https://github.com/icraft2170/youtube-data-mcp-server.git
-cd youtube-data-mcp-server
+git clone https://github.com/space-cadet/yt-mcp.git
+cd yt-mcp
 npm install
 ```
 
@@ -123,10 +114,10 @@ Add the following to your Claude Desktop configuration file:
   "mcpServers": {
     "youtube": {
       "command": "npx",
-      "args": ["-y", "youtube-data-mcp-server"],
+      "args": ["-y", "yt-mcp"],
       "env": {
         "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
-        "YOUTUBE_TRANSCRIPT_LANG": "ko"
+        "YOUTUBE_TRANSCRIPT_LANG": "en"
       }
     }
   }
@@ -166,6 +157,10 @@ The server exposes the following ports for communication:
 - Always keep your API key secure and never commit it to version control systems
 - Manage your API key through environment variables or configuration files
 - Set usage limits for your API key to prevent unauthorized use
+
+## Attribution
+
+This project is forked from [youtube-data-mcp-server](https://github.com/icraft2170/youtube-data-mcp-server) by [icraft2170](https://github.com/icraft2170). Special thanks to the original author for creating the foundation of this YouTube MCP server implementation.
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details. 

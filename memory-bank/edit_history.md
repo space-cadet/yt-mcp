@@ -2,6 +2,15 @@
 
 This file tracks specific file and folder changes in the project.
 
+### 2025-06-05
+
+#### 11:36 - T3: COMPLETED - Publish NPM Package and Github Release
+- Updated `package.json` - Changed name to yt-mcp, author to Deepak Vaid, added repository/homepage/bugs URLs
+- Updated `README.md` - Added NPM badge, updated package references, removed Smithery references, added attribution
+- Updated `smithery.yaml` - Changed command to use npx yt-mcp
+- Updated `/memory-bank/tasks.md` - Added T3 task and marked as completed
+- Updated `/memory-bank/session_cache.md` - Updated session focus to T3, marked as completed
+
 ### 2025-06-04
 
 #### 12:21 - T2: Created Testing MCP Tools Task

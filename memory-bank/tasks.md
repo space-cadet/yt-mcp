@@ -1,11 +1,11 @@
 # Task Registry
-*Last Updated: 2025-06-04 12:21:30 IST*
+*Last Updated: 2025-06-05 13:45:00 IST*
 
 ## Active Tasks
 | ID | Title | Status | Priority | Started | Dependencies |
 |----|-------|--------|----------|---------|--------------|
-| T1 | Development Environment Setup and MCP Server Verification | ✅ | HIGH | 2025-06-04 | - |
 | T2 | Testing MCP Tools | 🔄 | MEDIUM | 2025-06-04 | T1 |
+| T3 | Publish NPM Package and Github Release | ✅ | HIGH | 2025-06-05 | T1,T2 |
 
 ## Task Details
 ### T1: Development Environment Setup and MCP Server Verification
@@ -31,7 +31,21 @@
 **Files**: `src/index.ts`, `.env`, OAuth configuration
 **Notes**: Successfully connected to Claude, authenticated OAuth, accessed private playlists
 
+### T3: Publish NPM Package and Github Release
+**Description**: Update package details for personal ownership, publish to NPM, create GitHub release, and prepare project for public distribution
+**Status**: ✅ **Last**: 2025-06-05 13:45:00 IST
+**Criteria**:
+- Update package.json with personal details (name, author, repo URLs)
+- Update README with new package name and attribution
+- Remove Smithery references
+- Publish to NPM as yt-mcp
+- Create v1.0.0 GitHub release
+- Add NPM badge to documentation
+**Files**: `package.json`, `README.md`, `smithery.yaml`
+**Notes**: Successfully published to NPM at https://www.npmjs.com/package/yt-mcp, created GitHub release v1.0.0, properly attributed original work
+
 ## Completed Tasks
 | ID | Title | Completed |
 |----|-------|-----------|
-| - | - | - |
+| T1 | Development Environment Setup and MCP Server Verification | 2025-06-04 |
+| T3 | Publish NPM Package and Github Release | 2025-06-05 |
