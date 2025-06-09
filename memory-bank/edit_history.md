@@ -2,6 +2,15 @@
 
 This file tracks specific file and folder changes in the project.
 
+### 2025-06-10
+
+#### 00:19 - T2: COMPLETED - Testing MCP Tools
+- Fixed `src/utils/oauth.ts` - Changed console.log to console.error to prevent JSON-RPC interference
+
+#### 00:19 - T4: CREATED - OAuth Deployment Accessibility  
+- Updated `memory-bank/tasks.md` - Added new task T4 for OAuth npx deployment issue. Marked T2 as completed with progress documentation
+- Created `memory-bank/tasks/T4.md` - Individual task file for OAuth deployment accessibility
+
 ### 2025-06-05
 
 #### 11:36 - T3: COMPLETED - Publish NPM Package and Github Release

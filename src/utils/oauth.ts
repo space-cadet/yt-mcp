@@ -104,7 +104,7 @@ export class OAuthManager {
       return tokens;
     } catch (error) {
       // File might not exist yet, which is fine
-      console.log('No saved tokens found or error loading tokens');
+      console.error('No saved tokens found or error loading tokens');
       return null;
     }
   }
