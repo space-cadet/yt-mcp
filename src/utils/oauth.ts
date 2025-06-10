@@ -165,17 +165,35 @@ export class OAuthManager {
     if (!this.isInitialized) {
       await this.loadTokens();
       if (!this.isInitialized) {
+        console.log('No tokens found to revoke.');
         return; // No tokens to revoke
       }
     }
 
     try {
-      await this.oauth2Client.revokeCredentials();
-      // Remove tokens file
-      await fs.unlink(this.tokensPath);
+      // Try to revoke tokens from Google, but don't fail if it doesn't work
+      // (tokens might already be expired or revoked)
+      try {
+        await this.oauth2Client.revokeCredentials();
+        console.log('Tokens revoked from Google servers.');
+      } catch (revokeError: any) {
+        console.warn('Could not revoke tokens from Google servers (they may already be expired/revoked):', revokeError.message);
+      }
+      
+      // Always remove the local tokens file regardless of Google revocation status
+      try {
+        await fs.unlink(this.tokensPath);
+        console.log('Local tokens file deleted.');
+      } catch (unlinkError: any) {
+        if (unlinkError.code !== 'ENOENT') {
+          console.warn('Could not delete local tokens file:', unlinkError.message);
+        }
+      }
+      
       this.isInitialized = false;
+      console.log('Local authentication state cleared.');
     } catch (error) {
-      console.error('Error revoking tokens:', error);
+      console.error('Error during token revocation:', error);
       throw error;
     }
   }

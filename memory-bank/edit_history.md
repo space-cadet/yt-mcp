@@ -4,6 +4,24 @@ This file tracks specific file and folder changes in the project.
 
 ### 2025-06-10
 
+#### 13:45 - T4: COMPLETED - OAuth Deployment Accessibility
+- Updated `package.json` - Added yt-mcp-auth binary entry to bin section
+- Fixed `src/utils/oauth.ts` - Enhanced revokeTokens method with graceful error handling for invalid tokens
+- Updated `README.md` - Complete documentation overhaul with step-by-step setup instructions
+- Created `.env.example` - Environment variable template for local development
+- Updated `package.json` - Version bumped to 1.1.0 for release
+
+#### 13:30 - T4: OAuth error handling improvements
+- Fixed `src/utils/oauth.ts` - Enhanced token revocation to handle invalid_token errors gracefully
+
+#### 13:15 - T4: README documentation overhaul
+- Updated `README.md` - Added comprehensive setup instructions and troubleshooting section
+- Updated `README.md` - Added step-by-step Google Cloud Console configuration guide
+- Updated `README.md` - Added complete MCP client configuration examples for npx and local development
+
+#### 13:00 - T4: OAuth deployment accessibility implementation
+- Updated `package.json` - Added "yt-mcp-auth": "dist/auth-cli.js" to bin section for npx users
+
 #### 00:19 - T2: COMPLETED - Testing MCP Tools
 - Fixed `src/utils/oauth.ts` - Changed console.log to console.error to prevent JSON-RPC interference
 

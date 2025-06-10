@@ -84,15 +84,23 @@ While the core functionality is complete, there are several areas for potential 
 
 ## Current Status
 
-The project is in a **stable, functional state** with all core requirements implemented. The server correctly implements the MCP specification and provides reliable access to YouTube data.
+The project is in a **stable, production-ready state** with all core requirements implemented and deployment accessibility resolved. The server correctly implements the MCP specification and provides reliable access to YouTube data.
+
+### Recent Milestone: v1.1.0 Release (2025-06-10)
+- ✅ **OAuth Deployment Accessibility Resolved**: Added `yt-mcp-auth` binary for npx users
+- ✅ **Enhanced Documentation**: Comprehensive README with step-by-step setup instructions
+- ✅ **Improved Error Handling**: Graceful OAuth token management and revocation
+- ✅ **Professional Documentation**: Complete troubleshooting and security considerations
 
 The codebase is well-structured, following good software engineering practices:
 - Clear separation of concerns
 - Type safety with TypeScript
 - Consistent error handling
 - Modular architecture
+- Comprehensive documentation
+- Production-ready deployment options
 
-The package is published on npm and can be installed and used as described in the README.
+The package is published on npm and can be installed and used as described in the README. Both npx and local development deployments are fully supported.
 
 ## Known Issues
 

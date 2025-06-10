@@ -1,11 +1,12 @@
 {
   "name": "yt-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "YouTube MCP Server Implementation",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "yt-mcp": "dist/index.js"
+    "yt-mcp": "dist/index.js",
+    "yt-mcp-auth": "dist/auth-cli.js"
   },
   "files": [
     "dist",

@@ -32,32 +32,66 @@ A Model Context Protocol (MCP) server implementation utilizing the YouTube Data 
 * Compare performance metrics across multiple videos
 * Discover popular content in specific categories
 
-## OAuth Authentication for Private Content
+## OAuth Authentication (Private Playlists)
 
-This MCP server supports OAuth authentication to access private YouTube content including your personal playlists. To set up and use OAuth:
+**Note**: OAuth is only required if you want to access your private YouTube playlists. Public content works without authentication.
 
-1. **Create OAuth Credentials**:
-   - Go to the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
-   - Create OAuth 2.0 Client ID credentials (Web application type)
-   - Set the authorized redirect URI to `http://localhost:3000/oauth2callback`
-   - Add the client ID and secret to your `.env` file
+### Authentication Steps
 
-2. **Authenticate**:
+1. **Ensure OAuth is configured** (see Prerequisites section above)
+
+2. **Authenticate with Google**:
+   
+   **For npx users:**
    ```bash
-   # Start the OAuth flow
+   npx yt-mcp-auth auth
+   ```
+   
+   **For local development:**
+   ```bash
    npm run auth
-   # This will display a URL to visit in your browser
    ```
 
-3. **Verify Authentication Status**:
+3. **Handle the "Google hasn't verified this app" warning**:
+   - Click "Advanced" 
+   - Click "Go to [your app name] (unsafe)"
+   - This is safe since you created the OAuth app yourself
+
+4. **Complete the OAuth flow**:
+   - Grant the requested permissions
+   - You'll see a success message when authentication completes
+
+5. **Verify authentication**:
+   
+   **For npx users:**
+   ```bash
+   npx yt-mcp-auth status
+   ```
+   
+   **For local development:**
    ```bash
    npm run auth:status
    ```
 
-4. **Revoke Authentication**:
-   ```bash
-   npm run auth:revoke
-   ```
+### Managing Authentication
+
+**Check status:**
+```bash
+# npx users
+npx yt-mcp-auth status
+
+# Local development  
+npm run auth:status
+```
+
+**Revoke authentication:**
+```bash
+# npx users
+npx yt-mcp-auth revoke
+
+# Local development
+npm run auth:revoke
+```
 
 Once authenticated, you can access your private playlists using the `getMyPlaylists` tool.
 
@@ -83,31 +117,10 @@ The server provides the following MCP tools:
 | `getMyPlaylists` | Get your own playlists (including private ones) | `maxResults` (optional) |
 | `checkOAuthStatus` | Check if OAuth authentication is active | None |
 
-## Installation
+## Quick Start
 
-```bash
-# Install from npm
-npm install yt-mcp
-
-# Or clone repository
-git clone https://github.com/space-cadet/yt-mcp.git
-cd yt-mcp
-npm install
-```
-
-## Environment Configuration
-Set the following environment variables:
-* `YOUTUBE_API_KEY`: YouTube Data API key (required)
-* `YOUTUBE_TRANSCRIPT_LANG`: Default caption language (optional, default: 'en')
-
-### OAuth Configuration (for Private Playlists)
-To access private playlists and content, you'll need to configure OAuth:
-* `GOOGLE_OAUTH_CLIENT_ID`: OAuth 2.0 client ID
-* `GOOGLE_OAUTH_CLIENT_SECRET`: OAuth 2.0 client secret
-* `OAUTH_REDIRECT_URI`: OAuth callback URL (default: http://localhost:3000/oauth2callback)
-
-## MCP Client Configuration
-Add the following to your Claude Desktop configuration file:
+### Option 1: Use with npx (Recommended)
+No installation required! Use directly with Claude Desktop:
 
 ```json
 {
@@ -124,39 +137,202 @@ Add the following to your Claude Desktop configuration file:
 }
 ```
 
-## YouTube API Setup
-1. Access Google Cloud Console
-2. Create a new project or select an existing one
-3. Enable YouTube Data API v3
-4. Create API credentials (API key)
-5. Use the generated API key in your environment configuration
-
-## Development
-
+### Option 2: Local Development
 ```bash
-# Install dependencies
+git clone https://github.com/space-cadet/yt-mcp.git
+cd yt-mcp
 npm install
-
-# Run in development mode
-npm run dev
-
-# Build
 npm run build
 ```
 
-## Network Configuration
+## Prerequisites
 
-The server exposes the following ports for communication:
-- HTTP: 3000
-- gRPC: 3001
+### 1. YouTube Data API Setup
+
+**Step-by-step Google Cloud Console setup:**
+
+1. **Create/Select a Project**:
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Click "Select a project" → "New Project"
+   - Name your project (e.g., "YouTube MCP Server")
+   - Click "Create"
+
+2. **Enable YouTube Data API v3**:
+   - In the sidebar, go to "APIs & Services" → "Library"
+   - Search for "YouTube Data API v3"
+   - Click on it and press "Enable"
+
+3. **Create API Key**:
+   - Go to "APIs & Services" → "Credentials"
+   - Click "Create Credentials" → "API Key"
+   - Copy the generated API key
+   - (Optional) Click "Restrict Key" to limit it to YouTube Data API v3
+
+### 2. OAuth Setup (For Private Playlists - Optional)
+
+**Only needed if you want to access private playlists:**
+
+1. **Create OAuth 2.0 Credentials**:
+   - In "APIs & Services" → "Credentials"
+   - Click "Create Credentials" → "OAuth 2.0 Client ID"
+   - If prompted, configure the OAuth consent screen first:
+     - Choose "External" user type
+     - Fill in app name, user support email, developer contact
+     - Add your email to test users
+   - Choose "Web application" as application type
+   - Add authorized redirect URI: `http://localhost:3000/oauth2callback`
+   - Copy the Client ID and Client Secret
+
+## Environment Configuration
+
+### For npx Users
+
+Add environment variables directly to your Claude Desktop MCP configuration:
+
+**Basic configuration (public content only):**
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "command": "npx",
+      "args": ["-y", "yt-mcp"],
+      "env": {
+        "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
+        "YOUTUBE_TRANSCRIPT_LANG": "en"
+      }
+    }
+  }
+}
+```
+
+**Full configuration (with OAuth for private playlists):**
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "command": "npx",
+      "args": ["-y", "yt-mcp"],
+      "env": {
+        "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
+        "YOUTUBE_TRANSCRIPT_LANG": "en",
+        "GOOGLE_OAUTH_CLIENT_ID": "YOUR_OAUTH_CLIENT_ID",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "YOUR_OAUTH_CLIENT_SECRET",
+        "OAUTH_REDIRECT_URI": "http://localhost:3000/oauth2callback"
+      }
+    }
+  }
+}
+```
+
+### For Local Development
+
+Create a `.env` file in the project root:
+
+```env
+# Required
+YOUTUBE_API_KEY=your_youtube_api_key_here
+
+# Optional
+YOUTUBE_TRANSCRIPT_LANG=en
+
+# OAuth (for private playlists)
+GOOGLE_OAUTH_CLIENT_ID=your_oauth_client_id
+GOOGLE_OAUTH_CLIENT_SECRET=your_oauth_client_secret
+OAUTH_REDIRECT_URI=http://localhost:3000/oauth2callback
+```
+
+**Local development MCP configuration:**
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "command": "node",
+      "args": ["/path/to/yt-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**"Error: YOUTUBE_API_KEY environment variable is not set"**
+- Ensure you've added your YouTube API key to the MCP configuration
+- Verify the API key is valid and has YouTube Data API v3 enabled
+
+**"Google hasn't verified this app" warning during OAuth**
+- This is expected for personal OAuth apps
+- Click "Advanced" → "Go to [app name] (unsafe)" to continue
+- This is safe since you created the OAuth credentials yourself
+
+**"OAuth authentication required" error**
+- Run the authentication command: `npx yt-mcp-auth auth` (or `npm run auth` for local)
+- Make sure OAuth credentials are properly configured in your environment
+
+**"invalid_token" error during auth revocation**
+- This can happen if tokens are already expired
+- The command will still clean up local authentication state
+- You can safely re-authenticate after this error
+
+**MCP server not responding**
+- Verify Node.js version is 18.0.0 or higher
+- Check that the YouTube API key is valid
+- For local development, ensure you've run `npm run build`
+
+### Getting Help
+
+If you encounter issues:
+1. Check the troubleshooting section above
+2. Verify your API key and OAuth setup
+3. Create an issue on [GitHub](https://github.com/space-cadet/yt-mcp/issues)
+
+## Development
+
+### Local Development Setup
+```bash
+# Clone and setup
+git clone https://github.com/space-cadet/yt-mcp.git
+cd yt-mcp
+npm install
+
+# Create .env file with your credentials
+cp .env.example .env
+# Edit .env with your API keys
+
+# Development commands
+npm run dev      # Run in development mode with auto-reload
+npm run build    # Build TypeScript to JavaScript  
+npm run start    # Run built version
+npm test         # Run tests
+npm run lint     # Lint code
+```
+
+### Project Structure
+```
+src/
+├── index.ts              # Main MCP server
+├── auth-cli.ts           # OAuth authentication CLI
+├── functions/
+│   ├── videos.ts         # Video-related API functions
+│   └── playlists.ts      # Playlist-related API functions
+└── utils/
+    ├── oauth.ts          # OAuth token management
+    ├── oauth-routes.ts   # OAuth callback server
+    └── cli-auth.ts       # CLI authentication flow
+```
 
 ## System Requirements
 - Node.js 18.0.0 or higher
+- Internet connection for YouTube API access
+- Port 3000 available for OAuth callback (when using OAuth)
 
 ## Security Considerations
-- Always keep your API key secure and never commit it to version control systems
-- Manage your API key through environment variables or configuration files
-- Set usage limits for your API key to prevent unauthorized use
+- Never commit API keys or OAuth secrets to version control
+- Use environment variables for all sensitive configuration
+- Set usage quotas on your Google Cloud API key to prevent abuse
+- OAuth tokens are stored locally in `tokens.json` - keep this file secure
+- Consider revoking OAuth access when no longer needed
 
 ## Attribution
 

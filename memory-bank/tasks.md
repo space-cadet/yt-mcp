@@ -1,10 +1,10 @@
 # Task Registry
-*Last Updated: 2025-06-10 00:19:38 IST*
+*Last Updated: 2025-06-10 13:45:00 IST*
 
 ## Active Tasks
 | ID | Title | Status | Priority | Started | Dependencies |
 |----|-------|--------|----------|---------|--------------|
-| T4 | OAuth Deployment Accessibility | 📋 | MEDIUM | 2025-06-10 | T2 |
+=======
 
 ## Task Details
 ### T1: Development Environment Setup and MCP Server Verification
@@ -32,14 +32,14 @@
 =======
 ### T4: OAuth Deployment Accessibility
 **Description**: Solve OAuth authentication accessibility for end users deploying via npx, since auth CLI is not available through npx deployment
-**Status**: 📋 **Last**: 2025-06-10 00:19:38 IST
+**Status**: ✅ **Last**: 2025-06-10 13:45:00 IST
 **Criteria**:
 - Make auth CLI accessible via npx (e.g., separate binary or main executable flags)
 - Document OAuth setup process for npx users
 - Test end-to-end OAuth flow for npx deployment
 - Update README with clear OAuth instructions
 **Files**: `package.json`, `src/index.ts`, `src/auth-cli.ts`, `README.md`
-**Notes**: Current issue: npx users can't run `npm run auth` since they don't have local package.json scripts
+**Notes**: COMPLETED - Added yt-mcp-auth binary, enhanced OAuth error handling, comprehensive README overhaul
 
 ### T3: Publish NPM Package and Github Release
 **Description**: Update package details for personal ownership, publish to NPM, create GitHub release, and prepare project for public distribution
@@ -60,3 +60,4 @@
 | T1 | Development Environment Setup and MCP Server Verification | 2025-06-04 |
 | T2 | Testing MCP Tools | 2025-06-10 |
 | T3 | Publish NPM Package and Github Release | 2025-06-05 |
+| T4 | OAuth Deployment Accessibility | 2025-06-10 |
