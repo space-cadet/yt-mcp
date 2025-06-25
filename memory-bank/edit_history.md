@@ -2,6 +2,17 @@
 
 This file tracks specific file and folder changes in the project.
 
+### 2025-06-25
+
+#### 15:29 - T5: Dual Transcript Method Implementation
+- Added `src/functions/videos.ts` - OAuth client support and dual transcript methods (~75 lines)
+- Updated `src/index.ts` - Added method parameter to TranscriptsParams interface and MCP tool
+- Modified `package.json` - Added youtube-transcript dependency
+- Created `memory-bank/tasks/T5.md` - New task file for dual transcript implementation
+- Updated `memory-bank/tasks.md` - Added T5 to active tasks registry
+- Created `memory-bank/sessions/2025-06-25-afternoon.md` - Current session documentation
+- Updated `memory-bank/session_cache.md` - Current session state with T5 progress
+
 ### 2025-06-10
 
 #### 13:45 - T4: COMPLETED - OAuth Deployment Accessibility

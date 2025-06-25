@@ -280,6 +280,19 @@ OAUTH_REDIRECT_URI=http://localhost:3000/oauth2callback
 - Check that the YouTube API key is valid
 - For local development, ensure you've run `npm run build`
 
+**"Unsupported engine" / Node.js version errors in MCP logs**
+- This occurs when Claude's MCP environment uses a different Node.js version than your shell
+- Check Claude's MCP logs for Node version mismatches (requires Node 18+)
+- Solution: Specify the exact Node.js path in your MCP configuration:
+  ```json
+  "youtube": {
+    "command": "/path/to/node18/bin/npx",
+    "args": ["-y", "yt-mcp"],
+    "env": { ... }
+  }
+  ```
+- Find your Node 18+ path with: `which node` (in terminal with correct Node version active)
+
 ### Getting Help
 
 If you encounter issues:

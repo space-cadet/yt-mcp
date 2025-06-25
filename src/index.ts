@@ -34,6 +34,7 @@ interface TranscriptParams {
 interface TranscriptsParams {
     videoIds: string[];
     lang?: string;
+    method?: 'api' | 'scraper' | 'auto';
 }
 
 interface SearchParams {
@@ -187,12 +188,13 @@ async function main() {
         "Retrieves transcripts for multiple videos. Returns the text content of videos' captions, useful for accessibility and content analysis. Use this when you need the spoken content of multiple videos.",
         { 
             videoIds: z.array(z.string()),
-            lang: z.string().optional()
+            lang: z.string().optional(),
+            method: z.enum(['api', 'scraper', 'auto']).optional()
         },
-        async ({ videoIds, lang }: TranscriptsParams) => {
+        async ({ videoIds, lang, method }: TranscriptsParams) => {
             try {
                 const transcriptPromises = videoIds.map(videoId => 
-                    videoManager.getTranscript(videoId, lang)
+                    videoManager.getTranscript(videoId, lang, method)
                 );
                 const transcripts = await Promise.all(transcriptPromises);
                 

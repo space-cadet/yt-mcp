@@ -52,6 +52,63 @@ Encountered Error 400: redirect_uri_mismatch when attempting OAuth flow, despite
 - Most likely waiting for Google's changes to fully propagate
 - Recommended waiting additional time or creating new credentials
 
+## MCP Server Configuration Errors
+
+### [2025-06-10] Node.js Version Compatibility with MCP Configuration
+
+#### Issue
+YouTube MCP server failed to start with Node.js version compatibility error:
+```
+npm ERR! engine Unsupported engine
+npm ERR! engine Not compatible with your version of node/npm: @modelcontextprotocol/sdk@1.12.1
+npm ERR! notsup Required: {"node":">=18"}
+npm ERR! notsup Actual:   {"npm":"7.10.0","node":"v16.0.0"}
+```
+
+#### Root Cause
+- User's interactive shell was using Node.js v18.20.8 (correct version)
+- Claude's MCP server environment was using Node.js v16.0.0 from different PATH
+- MCP configuration used `"command": "npx"` which resolved to first Node.js in Claude's PATH
+- Claude's environment PATH had `/Users/deepak/.nvm/versions/node/v16.0.0/bin` before v18 path
+
+#### Resolution
+Updated MCP configuration to specify exact Node.js v18 path:
+
+**Before:**
+```json
+"youtube": {
+  "command": "npx",
+  "args": ["-y", "yt-mcp"],
+  "env": { ... }
+}
+```
+
+**After:**
+```json
+"youtube": {
+  "command": "/Users/deepak/.nvm/versions/node/v18.20.8/bin/npx",
+  "args": ["-y", "yt-mcp"],
+  "env": { ... }
+}
+```
+
+**Alternative solution (PATH override):**
+```json
+"youtube": {
+  "command": "npx",
+  "args": ["-y", "yt-mcp"],
+  "env": {
+    "PATH": "/Users/deepak/.nvm/versions/node/v18.20.8/bin:/usr/local/bin:/usr/bin:/bin",
+    ...
+  }
+}
+```
+
+#### Notes
+- MCP servers inherit environment from Claude application, not user's shell
+- User's shell environment (nvm, PATH) doesn't affect MCP server processes
+- Specific Node.js path in MCP config ensures consistent version usage
+
 ## Previous Errors
 
 ### [2025-03-25] TypeScript Type Declaration Errors

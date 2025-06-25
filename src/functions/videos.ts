@@ -1,5 +1,6 @@
 import { google, youtube_v3 } from 'googleapis';
 import { getSubtitles } from 'youtube-captions-scraper';
+import { oauthManager } from '../utils/oauth.js';
 
 export interface VideoOptions {
   videoId: string;
@@ -35,6 +36,24 @@ export class VideoManagement {
     this.youtube = google.youtube({
       version: 'v3',
       auth: process.env.YOUTUBE_API_KEY
+    });
+  }
+
+  async getYouTubeClient(useAuth: boolean = false): Promise<youtube_v3.Youtube> {
+    if (useAuth) {
+      const isAuthenticated = await oauthManager.isAuthenticated();
+      if (isAuthenticated) {
+        await oauthManager.refreshTokenIfNeeded();
+        const oauth2Client = await oauthManager.getOAuth2Client();
+        return google.youtube({
+          version: 'v3',
+          auth: oauth2Client
+        });
+      }
+    }
+    return google.youtube({
+      version: 'v3',
+      auth: process.env.YOUTUBE_API_KEY || ''
     });
   }
 
@@ -88,16 +107,77 @@ export class VideoManagement {
     }
   }
 
-  async getTranscript(videoId: string, lang?: string) {
+  async getTranscript(videoId: string, lang?: string, method?: 'api' | 'scraper' | 'auto') {
+    const selectedMethod = method || 'auto';
+    
+    if (selectedMethod === 'api' || selectedMethod === 'auto') {
+      try {
+        return await this.getTranscriptFromAPI(videoId, lang);
+      } catch (error) {
+        if (selectedMethod === 'api') throw error;
+      }
+    }
+    
+    return await this.getTranscriptFromScraper(videoId, lang);
+  }
+
+  private async getTranscriptFromAPI(videoId: string, lang?: string) {
+    try {
+      const youtube = await this.getYouTubeClient(true);
+      
+      const captionsResponse = await youtube.captions.list({
+        part: ['snippet'],
+        videoId: videoId
+      });
+
+      if (!captionsResponse.data.items?.length) {
+        throw new Error('No captions available');
+      }
+
+      const targetLang = lang || 'en';
+      let caption = captionsResponse.data.items.find(item => 
+        item.snippet?.language === targetLang
+      ) || captionsResponse.data.items[0];
+
+      const downloadResponse = await youtube.captions.download({
+        id: caption.id!,
+        tfmt: 'srv3'
+      });
+
+      return this.parseTranscriptXML(downloadResponse.data as string);
+    } catch (error: any) {
+      throw new Error(`API transcript failed: ${error.message}`);
+    }
+  }
+
+  private async getTranscriptFromScraper(videoId: string, lang?: string) {
     try {
       const transcript = await getSubtitles({
         videoID: videoId,
         lang: lang || process.env.YOUTUBE_TRANSCRIPT_LANG || 'en'
       });
+      console.error(`Transcript result for ${videoId}:`, transcript);
       return transcript;
     } catch (error: any) {
-      throw new Error(`Failed to retrieve transcript: ${error.message}`);
+      console.error(`Scraper error for ${videoId}:`, error.message);
+      throw new Error(`Scraper transcript failed: ${error.message}`);
     }
+  }
+
+  private parseTranscriptXML(xmlData: string) {
+    const regex = /<text start="([^"]*)" dur="([^"]*)">([^<]*)<\/text>/g;
+    const result = [];
+    let match;
+    
+    while ((match = regex.exec(xmlData)) !== null) {
+      result.push({
+        start: parseFloat(match[1]),
+        dur: parseFloat(match[2]),
+        text: match[3].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+      });
+    }
+    
+    return result;
   }
 
   async getRelatedVideos(videoId: string, maxResults: number = 10) {
