@@ -4,6 +4,19 @@ All notable changes to the YouTube MCP Server project will be documented in this
 
 ## [Unreleased]
 
+## [1.1.1] - 2025-07-05
+
+### Fixed
+- Fixed transcript functionality Python subprocess integration
+- Added PYTHON_PATH environment variable support for flexible Python executable configuration
+- Resolved transcript retrieval failures in MCP environments
+- Enhanced documentation with Python setup requirements and troubleshooting
+
+### Added
+- Python requirements.txt for transcript dependencies
+- Comprehensive Python setup documentation in README
+- Test scripts for transcript functionality validation
+
 ## [1.1.0] - 2025-04-10
 
 ### Added
