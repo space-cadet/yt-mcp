@@ -1,5 +1,8 @@
 import { google, youtube_v3 } from 'googleapis';
-import { getSubtitles } from 'youtube-captions-scraper';
+import { spawn } from 'child_process';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 export interface VideoOptions {
   videoId: string;
@@ -89,15 +92,70 @@ export class VideoManagement {
   }
 
   async getTranscript(videoId: string, lang?: string) {
-    try {
-      const transcript = await getSubtitles({
-        videoID: videoId,
-        lang: lang || process.env.YOUTUBE_TRANSCRIPT_LANG || 'en'
-      });
-      return transcript;
-    } catch (error: any) {
-      throw new Error(`Failed to retrieve transcript: ${error.message}`);
+    // Validate video ID
+    if (!videoId || typeof videoId !== 'string') {
+      throw new Error('Invalid video ID provided');
     }
+
+    // Set default language or use provided one
+    const language = lang || process.env.YOUTUBE_TRANSCRIPT_LANG || 'en';
+    
+    return new Promise((resolve, reject) => {
+      // Path to Python script - ES module compatible
+      const currentFile = fileURLToPath(import.meta.url);
+      const currentDir = dirname(currentFile);
+      const scriptPath = path.join(currentDir, '../../scripts/fetch_transcript.py');
+      
+      // Use PYTHON_PATH environment variable if specified, otherwise fallback to python3
+      const pythonExecutable = process.env.PYTHON_PATH || 'python3';
+      
+      // Spawn Python process
+      const pythonProcess = spawn(pythonExecutable, [scriptPath, videoId, '--lang', language], {
+        stdio: ['pipe', 'pipe', 'pipe']
+      });
+      
+      let stdout = '';
+      let stderr = '';
+      
+      pythonProcess.stdout.on('data', (data) => {
+        stdout += data.toString();
+      });
+      
+      pythonProcess.stderr.on('data', (data) => {
+        stderr += data.toString();
+      });
+      
+      pythonProcess.on('close', (code) => {
+        if (code !== 0) {
+          console.error(`Python script failed with code ${code}`);
+          console.error(`stderr: ${stderr}`);
+          resolve([]); // Return empty array on error for better UX
+          return;
+        }
+        
+        try {
+          const result = JSON.parse(stdout.trim());
+          
+          if (result.success) {
+            resolve(result.transcript);
+          } else {
+            // Log the error but return empty array for better UX
+            console.warn(`Transcript fetch warning for ${videoId}: ${result.error}`);
+            resolve([]);
+          }
+        } catch (parseError) {
+          console.error(`Failed to parse Python script output: ${parseError}`);
+          console.error(`stdout: ${stdout}`);
+          console.error(`stderr: ${stderr}`);
+          resolve([]);
+        }
+      });
+      
+      pythonProcess.on('error', (error) => {
+        console.error(`Failed to start Python process: ${error.message}`);
+        resolve([]); // Return empty array on error
+      });
+    });
   }
 
   async getRelatedVideos(videoId: string, maxResults: number = 10) {

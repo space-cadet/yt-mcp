@@ -55,6 +55,7 @@
     "googleapis": "^129.0.0",
     "pnpm": "^10.6.4",
     "youtube-captions-scraper": "^2.0.0",
+    "youtube-transcript-plus": "1.0.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {

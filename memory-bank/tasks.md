@@ -1,12 +1,24 @@
 # Task Registry
-*Last Updated: 2025-06-10 13:45:00 IST*
+*Last Updated: 2025-07-05 13:15:19 IST*
 
 ## Active Tasks
 | ID | Title | Status | Priority | Started | Dependencies |
 |----|-------|--------|----------|---------|--------------|
-=======
+
 
 ## Task Details
+### T5: Fix Transcript Functionality Python Integration
+**Description**: Resolve transcript retrieval failure due to Python subprocess integration not working in Claude MCP environment, implement PYTHON_PATH environment variable support, and document setup requirements
+**Status**: ✅ **Last**: 2025-07-05 13:15:19 IST
+**Criteria**: 
+- Identify root cause of transcript functionality failure
+- Modify code to respect PYTHON_PATH environment variable instead of hardcoded python3
+- Test transcript retrieval with proper Python executable path
+- Update documentation with Python setup requirements
+- Add troubleshooting section for transcript issues
+**Files**: `src/functions/videos.ts`, `README.md`, MCP configuration
+**Notes**: Fixed by updating spawn call to use process.env.PYTHON_PATH || 'python3', successfully tested transcript retrieval, comprehensive documentation added
+
 ### T1: Development Environment Setup and MCP Server Verification
 **Description**: Set up development environment, fix npm installation issues, switch to tsx for TypeScript development, and verify MCP server functionality
 **Status**: ✅ **Last**: 2025-06-04 12:21:30 IST
@@ -29,7 +41,7 @@
 - Analyze playlist organization opportunities
 **Files**: `src/index.ts`, `.env`, OAuth configuration, `src/utils/oauth.ts`
 **Notes**: Fixed Node.js compatibility (v16→v18), verified all public YouTube tools working, fixed JSON parsing error in OAuth manager
-=======
+
 ### T4: OAuth Deployment Accessibility
 **Description**: Solve OAuth authentication accessibility for end users deploying via npx, since auth CLI is not available through npx deployment
 **Status**: ✅ **Last**: 2025-06-10 13:45:00 IST
@@ -61,3 +73,4 @@
 | T2 | Testing MCP Tools | 2025-06-10 |
 | T3 | Publish NPM Package and Github Release | 2025-06-05 |
 | T4 | OAuth Deployment Accessibility | 2025-06-10 |
+| T5 | Fix Transcript Functionality Python Integration | 2025-07-05 |

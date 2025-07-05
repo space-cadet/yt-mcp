@@ -2,6 +2,21 @@
 
 This file tracks specific file and folder changes in the project.
 
+### 2025-07-05
+
+#### 13:16 - T5: COMPLETED - Fix Transcript Functionality Python Integration
+- Updated `src/functions/videos.ts` - Modified getTranscript method to use PYTHON_PATH environment variable instead of hardcoded python3
+- Updated `package.json` - Added youtube-transcript-plus dependency
+- Deleted `src/types/youtube-captions-scraper.d.ts` - Removed obsolete type definitions
+- Updated `README.md` - Added comprehensive Python setup documentation and troubleshooting for transcript functionality
+- Updated `memory-bank/tasks.md` - Created and completed task T5 for transcript functionality fix
+- Updated `memory-bank/edit_history.md` - Added edit history entry for T5 task completion
+- Created `pnpm-lock.yaml` - Package manager lockfile for dependency management
+- Created `requirements.txt` - Python dependencies file for transcript functionality
+- Created `scripts/` - Directory containing Python transcript fetching script
+- Created `test-new-transcript.js` - Test file for transcript functionality validation
+- Created `test_python_transcript.py` - Python test file for transcript API testing
+
 ### 2025-06-10
 
 #### 13:45 - T4: COMPLETED - OAuth Deployment Accessibility

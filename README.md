@@ -147,7 +147,25 @@ npm run build
 
 ## Prerequisites
 
-### 1. YouTube Data API Setup
+### 1. Python Dependencies (For Transcript Functionality)
+
+**The transcript feature requires Python with the `youtube-transcript-api` package:**
+
+1. **Install Python** (if not already installed):
+   - Python 3.7 or higher is required
+   - You can download from [python.org](https://python.org) or use a package manager
+
+2. **Install the required Python package**:
+   ```bash
+   pip install youtube-transcript-api
+   ```
+
+3. **Configure Python path** (if using a non-default Python installation):
+   - If you're using conda, virtual environments, or a custom Python installation
+   - You'll need to specify the Python executable path in your MCP configuration
+   - Example: `/Users/username/miniconda3/bin/python`
+
+### 2. YouTube Data API Setup
 
 **Step-by-step Google Cloud Console setup:**
 
@@ -168,7 +186,7 @@ npm run build
    - Copy the generated API key
    - (Optional) Click "Restrict Key" to limit it to YouTube Data API v3
 
-### 2. OAuth Setup (For Private Playlists - Optional)
+### 3. OAuth Setup (For Private Playlists - Optional)
 
 **Only needed if you want to access private playlists:**
 
@@ -205,7 +223,7 @@ Add environment variables directly to your Claude Desktop MCP configuration:
 }
 ```
 
-**Full configuration (with OAuth for private playlists):**
+**Configuration with custom Python path:**
 ```json
 {
   "mcpServers": {
@@ -215,6 +233,24 @@ Add environment variables directly to your Claude Desktop MCP configuration:
       "env": {
         "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
         "YOUTUBE_TRANSCRIPT_LANG": "en",
+        "PYTHON_PATH": "/path/to/your/python"
+      }
+    }
+  }
+}
+```
+
+**Full configuration (with OAuth and custom Python path):**
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "command": "npx",
+      "args": ["-y", "yt-mcp"],
+      "env": {
+        "YOUTUBE_API_KEY": "YOUR_API_KEY_HERE",
+        "YOUTUBE_TRANSCRIPT_LANG": "en",
+        "PYTHON_PATH": "/path/to/your/python",
         "GOOGLE_OAUTH_CLIENT_ID": "YOUR_OAUTH_CLIENT_ID",
         "GOOGLE_OAUTH_CLIENT_SECRET": "YOUR_OAUTH_CLIENT_SECRET",
         "OAUTH_REDIRECT_URI": "http://localhost:3000/oauth2callback"
@@ -234,6 +270,7 @@ YOUTUBE_API_KEY=your_youtube_api_key_here
 
 # Optional
 YOUTUBE_TRANSCRIPT_LANG=en
+PYTHON_PATH=/path/to/your/python
 
 # OAuth (for private playlists)
 GOOGLE_OAUTH_CLIENT_ID=your_oauth_client_id
@@ -274,6 +311,20 @@ OAUTH_REDIRECT_URI=http://localhost:3000/oauth2callback
 - This can happen if tokens are already expired
 - The command will still clean up local authentication state
 - You can safely re-authenticate after this error
+
+**Transcript functionality not working**
+- **"ModuleNotFoundError: No module named 'youtube_transcript_api'"**:
+  - Install the Python package: `pip install youtube-transcript-api`
+  - If using conda/virtual environment, ensure the package is installed in that environment
+  - Set `PYTHON_PATH` environment variable to point to the correct Python executable
+- **Empty transcript results**:
+  - Some videos don't have transcripts available
+  - Try different videos to verify the functionality is working
+  - Check if the video has closed captions enabled
+- **"Failed to start Python process"**:
+  - Verify Python is installed and accessible
+  - Set `PYTHON_PATH` to the full path of your Python executable
+  - Example: `"PYTHON_PATH": "/Users/username/miniconda3/bin/python"`
 
 **MCP server not responding**
 - Verify Node.js version is 18.0.0 or higher
