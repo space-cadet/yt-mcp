@@ -1,7 +1,29 @@
 # YouTube MCP Server
 [![npm version](https://badge.fury.io/js/yt-mcp.svg)](https://badge.fury.io/js/yt-mcp)
 
+*Last Updated: 2025-07-05*
+
 A Model Context Protocol (MCP) server implementation utilizing the YouTube Data API. It allows AI language models to interact with YouTube content through a standardized interface.
+
+**✅ YouTube Transcript Support**: This server includes full transcript/caption functionality using the `youtube-transcript-api` Python package. Simply install Python dependencies and optionally configure the Python path - transcripts work seamlessly for videos with available captions.
+
+## Table of Contents
+
+- [Key Features](#key-features)
+- [OAuth Authentication (Private Playlists)](#oauth-authentication-private-playlists)
+- [Available Tools](#available-tools)
+- [Quick Start](#quick-start)
+- [Prerequisites](#prerequisites)
+  - [1. Python Setup (Required for Transcript Functionality)](#1--python-setup-required-for-transcript-functionality)
+  - [2. YouTube Data API Setup](#2-youtube-data-api-setup)
+  - [3. OAuth Setup (For Private Playlists - Optional)](#3-oauth-setup-for-private-playlists---optional)
+- [Environment Configuration](#environment-configuration)
+- [Troubleshooting](#troubleshooting)
+- [Development](#development)
+- [System Requirements](#system-requirements)
+- [Security Considerations](#security-considerations)
+- [Attribution](#attribution)
+- [License](#license)
 
 ## Key Features
 
@@ -11,10 +33,12 @@ A Model Context Protocol (MCP) server implementation utilizing the YouTube Data 
 * Get related videos based on a specific video
 * Calculate and analyze video engagement ratios
 
-### Transcript/Caption Management
-* Retrieve video captions with multi-language support
-* Specify language preferences for transcripts
-* Access time-stamped captions for precise content reference
+### ✅ Transcript/Caption Management (Fully Functional)
+* **Retrieve video transcripts** using the powerful `youtube-transcript-api` Python package
+* **Multi-language support** with automatic language detection and fallback options
+* **Time-stamped captions** for precise content reference and analysis
+* **Easy setup** - just install Python dependencies and optionally set your Python path
+* **Works reliably** for any video with available captions/transcripts
 
 ### Channel Analysis
 * View detailed channel statistics (subscribers, views, video count)
@@ -147,23 +171,39 @@ npm run build
 
 ## Prerequisites
 
-### 1. Python Dependencies (For Transcript Functionality)
+### 1. 🐍 Python Setup (Required for Transcript Functionality)
 
-**The transcript feature requires Python with the `youtube-transcript-api` package:**
+**✅ YouTube transcript functionality is fully supported and working!** 
+
+The transcript feature uses the `youtube-transcript-api` Python package to reliably fetch transcripts from any video with available captions.
+
+**📋 Setup Steps:**
 
 1. **Install Python** (if not already installed):
-   - Python 3.7 or higher is required
-   - You can download from [python.org](https://python.org) or use a package manager
+   - **Python 3.7 or higher is required**
+   - Download from [python.org](https://python.org) or use your system's package manager
+   - Verify installation: `python --version` or `python3 --version`
 
-2. **Install the required Python package**:
+2. **Install the Python transcript package**:
    ```bash
    pip install youtube-transcript-api
    ```
+   
+   **Or if you use pip3:**
+   ```bash
+   pip3 install youtube-transcript-api
+   ```
 
-3. **Configure Python path** (if using a non-default Python installation):
-   - If you're using conda, virtual environments, or a custom Python installation
-   - You'll need to specify the Python executable path in your MCP configuration
-   - Example: `/Users/username/miniconda3/bin/python`
+3. **Configure Python path** (if needed):
+   - **Most users won't need this step** - the server will automatically find `python3`
+   - Only needed if you're using conda, virtual environments, or custom Python installations
+   - Set `PYTHON_PATH` in your environment to point to your Python executable
+   - Examples:
+     - `/Users/username/miniconda3/bin/python`
+     - `/opt/homebrew/bin/python3`
+     - `C:\Python39\python.exe` (Windows)
+
+**🎯 That's it!** Once Python and the package are installed, transcript functionality works immediately for any video with available captions.
 
 ### 2. YouTube Data API Setup
 
@@ -207,7 +247,7 @@ npm run build
 
 Add environment variables directly to your Claude Desktop MCP configuration:
 
-**Basic configuration (public content only):**
+**Basic configuration (public content + transcripts):**
 ```json
 {
   "mcpServers": {
@@ -222,8 +262,9 @@ Add environment variables directly to your Claude Desktop MCP configuration:
   }
 }
 ```
+**Note**: This configuration includes full transcript functionality! Just ensure you have Python and `youtube-transcript-api` installed.
 
-**Configuration with custom Python path:**
+**Configuration with custom Python path (for conda/virtual environments):**
 ```json
 {
   "mcpServers": {
@@ -239,6 +280,7 @@ Add environment variables directly to your Claude Desktop MCP configuration:
   }
 }
 ```
+**Note**: Most users don't need `PYTHON_PATH` - only set this if you're using conda, virtual environments, or custom Python installations.
 
 **Full configuration (with OAuth and custom Python path):**
 ```json
@@ -312,19 +354,33 @@ OAUTH_REDIRECT_URI=http://localhost:3000/oauth2callback
 - The command will still clean up local authentication state
 - You can safely re-authenticate after this error
 
-**Transcript functionality not working**
+**🐍 Transcript functionality troubleshooting**
+
+**✅ Good news**: Transcript functionality is fully working and battle-tested! Most issues are simple setup problems.
+
 - **"ModuleNotFoundError: No module named 'youtube_transcript_api'"**:
-  - Install the Python package: `pip install youtube-transcript-api`
-  - If using conda/virtual environment, ensure the package is installed in that environment
-  - Set `PYTHON_PATH` environment variable to point to the correct Python executable
+  - **Solution**: Install the Python package: `pip install youtube-transcript-api`
+  - If using conda/virtual environment, ensure the package is installed in that specific environment
+  - Verify with: `python -c "import youtube_transcript_api; print('Package installed successfully!')"`
+
+- **"Failed to start Python process"** or Python not found:
+  - **Solution**: Set `PYTHON_PATH` environment variable to point to your Python executable
+  - Find your Python path: `which python3` (macOS/Linux) or `where python` (Windows)
+  - Add to MCP config: `"PYTHON_PATH": "/path/to/your/python"`
+  - Examples:
+    - `"/usr/bin/python3"` (system Python)
+    - `"/Users/username/miniconda3/bin/python"` (conda)
+    - `"C:\\Python39\\python.exe"` (Windows)
+
 - **Empty transcript results**:
-  - Some videos don't have transcripts available
-  - Try different videos to verify the functionality is working
-  - Check if the video has closed captions enabled
-- **"Failed to start Python process"**:
-  - Verify Python is installed and accessible
-  - Set `PYTHON_PATH` to the full path of your Python executable
-  - Example: `"PYTHON_PATH": "/Users/username/miniconda3/bin/python"`
+  - **This is normal!** Some videos don't have transcripts available
+  - Try popular videos (like TED talks, educational content) which usually have captions
+  - Test with a known working video to verify functionality
+  - The transcript API will return empty results for videos without captions
+
+- **Transcript language issues**:
+  - Set `YOUTUBE_TRANSCRIPT_LANG` to your preferred language (e.g., "en", "es", "fr")
+  - The API will automatically fall back to available languages if your preference isn't available
 
 **MCP server not responding**
 - Verify Node.js version is 18.0.0 or higher

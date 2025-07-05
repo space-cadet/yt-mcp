@@ -1,5 +1,5 @@
 # Task Registry
-*Last Updated: 2025-07-05 13:15:19 IST*
+*Last Updated: 2025-07-05 15:30:00 IST*
 
 ## Active Tasks
 | ID | Title | Status | Priority | Started | Dependencies |
@@ -55,7 +55,7 @@
 
 ### T3: Publish NPM Package and Github Release
 **Description**: Update package details for personal ownership, publish to NPM, create GitHub release, and prepare project for public distribution
-**Status**: ✅ **Last**: 2025-06-05 13:45:00 IST
+**Status**: ✅ **Last**: 2025-07-05 15:30:00 IST
 **Criteria**:
 - Update package.json with personal details (name, author, repo URLs)
 - Update README with new package name and attribution
@@ -63,8 +63,9 @@
 - Publish to NPM as yt-mcp
 - Create v1.0.0 GitHub release
 - Add NPM badge to documentation
-**Files**: `package.json`, `README.md`, `smithery.yaml`
-**Notes**: Successfully published to NPM at https://www.npmjs.com/package/yt-mcp, created GitHub release v1.0.0, properly attributed original work
+- Maintain package with version updates
+**Files**: `package.json`, `README.md`, `smithery.yaml`, `changelog.md`
+**Notes**: Successfully published to NPM at https://www.npmjs.com/package/yt-mcp, created GitHub release v1.0.0, properly attributed original work, published v1.1.1 for transcript fixes, enhanced README with comprehensive transcript documentation
 
 ## Completed Tasks
 | ID | Title | Completed |

@@ -4,6 +4,15 @@ This file tracks specific file and folder changes in the project.
 
 ### 2025-07-05
 
+#### 15:45 - T3: README Enhancement for Transcript Functionality
+- Updated `README.md` - Enhanced with comprehensive transcript functionality documentation, Table of Contents, and improved user guidance
+
+#### 15:30 - T3: Version 1.1.1 Update
+- Updated `package.json` - Version bumped from 1.1.0 to 1.1.1
+- Updated `changelog.md` - Added [1.1.1] section with transcript functionality fixes
+- Updated `memory-bank/tasks/T3.md` - Added v1.1.1 publication to completed criteria
+- Updated `memory-bank/tasks.md` - Updated T3 completion timestamp and notes
+
 #### 13:16 - T5: COMPLETED - Fix Transcript Functionality Python Integration
 - Updated `src/functions/videos.ts` - Modified getTranscript method to use PYTHON_PATH environment variable instead of hardcoded python3
 - Updated `package.json` - Added youtube-transcript-plus dependency

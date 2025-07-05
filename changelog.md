@@ -4,6 +4,16 @@ All notable changes to the YouTube MCP Server project will be documented in this
 
 ## [Unreleased]
 
+## [1.1.2] - 2025-07-05
+
+### Changed
+- Enhanced README documentation with comprehensive transcript functionality guidance
+- Added Table of Contents for improved navigation
+- Restructured Python setup section with step-by-step instructions
+- Improved troubleshooting section with transcript-specific solutions and reassurance
+- Emphasized youtube-transcript-api package integration throughout documentation
+- Added clear configuration examples and user guidance for transcript setup
+
 ## [1.1.1] - 2025-07-05
 
 ### Fixed
