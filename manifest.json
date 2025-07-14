@@ -1,0 +1,129 @@
+{
+  "dxt_version": "0.1",
+  "name": "yt-mcp",
+  "version": "1.1.2",
+  "description": "Youtube Desktop Extension",
+  "long_description": "A comprehensive YouTube integration for Claude Desktop that provides powerful video analytics, content discovery, and playlist management capabilities through the YouTube Data API v3.\n\n## Features\n\n**Video Operations:**\n- Search videos by keywords with customizable result limits\n- Get detailed video metadata including statistics, descriptions, and content details\n- Retrieve video transcripts in multiple languages for accessibility and analysis\n- Calculate engagement ratios (likes, comments, views) for performance analysis\n- Compare multiple videos side-by-side with comprehensive metrics\n\n**Channel Analytics:**\n- Get channel statistics including subscriber counts, total views, and video counts\n- Find top-performing videos from any channel\n- Discover related videos based on YouTube's recommendation algorithm\n\n**Playlist Management:**\n- Search and browse public playlists\n- Get detailed playlist information and video listings\n- Access your personal playlists (with OAuth authentication)\n- Retrieve all playlists from specific channels\n\n**Content Discovery:**\n- Browse trending videos by region and category\n- Explore videos across 44+ categories including Music, Gaming, Education, Tech, and more\n- Regional content discovery with country-specific trending data\n\n**OAuth Support:**\n- Secure authentication for accessing private playlists\n- Built-in OAuth flow management with token refresh\n- Access your personal YouTube data safely\n\nPerfect for content creators, marketers, researchers, and anyone who needs to analyze YouTube content at scale directly within Claude Desktop.",
+  "author": {
+    "name": "Deepak Vaid",
+    "email": "dvaid79@gmail.com",
+    "url": "https://github.com/space-cadet/yt-mcp"
+  },
+  "homepage": "https://space-cadet.github.io/yt-mcp/",
+  "documentation": "https://space-cadet.github.io/yt-mcp/",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.js"
+      ],
+      "env": {
+        "YOUTUBE_API_KEY": "${user_config.youtube_api_key}",
+        "YOUTUBE_TRANSCRIPT_LANG": "${user_config.transcript_lang}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "searchVideos",
+      "description": "Search for videos based on keywords with customizable result limits"
+    },
+    {
+      "name": "getVideoDetails",
+      "description": "Get detailed information about multiple YouTube videos including metadata and statistics"
+    },
+    {
+      "name": "getTranscripts",
+      "description": "Retrieve video transcripts in multiple languages for accessibility and content analysis"
+    },
+    {
+      "name": "getRelatedVideos",
+      "description": "Discover related videos based on YouTube's recommendation algorithm"
+    },
+    {
+      "name": "getChannelStatistics",
+      "description": "Get channel metrics including subscriber count, view count, and video count"
+    },
+    {
+      "name": "getChannelTopVideos",
+      "description": "Find the most viewed or popular videos from a specific channel"
+    },
+    {
+      "name": "getVideoEngagementRatio",
+      "description": "Calculate engagement ratios for videos including likes, comments, and view metrics"
+    },
+    {
+      "name": "getTrendingVideos",
+      "description": "Discover trending videos by region and category across 44+ content categories"
+    },
+    {
+      "name": "compareVideos",
+      "description": "Compare multiple videos side-by-side with engagement metrics and performance data"
+    },
+    {
+      "name": "getPlaylistDetails",
+      "description": "Get comprehensive information about YouTube playlists including metadata and video count"
+    },
+    {
+      "name": "getPlaylistVideos",
+      "description": "Retrieve all videos contained in a specific YouTube playlist with detailed information"
+    },
+    {
+      "name": "searchPublicPlaylists",
+      "description": "Search for public playlists based on keywords and filter by channel"
+    },
+    {
+      "name": "getChannelPlaylists",
+      "description": "Retrieve all public playlists from a specific YouTube channel"
+    },
+    {
+      "name": "getMyPlaylists",
+      "description": "Access your personal YouTube playlists including private ones (requires OAuth)"
+    },
+    {
+      "name": "checkOAuthStatus",
+      "description": "Check if OAuth authentication is available for accessing private YouTube content"
+    }
+  ],
+  "user_config": {
+    "youtube_api_key": {
+      "type": "string",
+      "title": "YouTube API Key",
+      "description": "Your YouTube Data API v3 key from Google Cloud Console",
+      "required": true,
+      "sensitive": true
+    },
+    "transcript_lang": {
+      "type": "string",
+      "title": "Default Transcript Language",
+      "description": "Default language code for video transcripts (e.g., 'en', 'es', 'fr')",
+      "required": false,
+      "sensitive": false,
+      "default": "en"
+    }
+  },
+  "keywords": [
+    "youtube",
+    "video",
+    "analytics",
+    "transcripts",
+    "playlists",
+    "content",
+    "api",
+    "social-media",
+    "statistics",
+    "trending",
+    "channels",
+    "engagement",
+    "data-analysis",
+    "research",
+    "marketing"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/space-cadet/yt-mcp.git"
+  }
+}

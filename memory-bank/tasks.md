@@ -1,9 +1,10 @@
 # Task Registry
-*Last Updated: 2025-07-05 15:30:00 IST*
+*Last Updated: 2025-07-15 00:28:03 IST*
 
 ## Active Tasks
 | ID | Title | Status | Priority | Started | Dependencies |
 |----|-------|--------|----------|---------|--------------|
+| T6 | Desktop Extension Development | 🔄 | HIGH | 2025-07-15 | T5 |
 
 
 ## Task Details
@@ -66,6 +67,20 @@
 - Maintain package with version updates
 **Files**: `package.json`, `README.md`, `smithery.yaml`, `changelog.md`
 **Notes**: Successfully published to NPM at https://www.npmjs.com/package/yt-mcp, created GitHub release v1.0.0, properly attributed original work, published v1.1.1 for transcript fixes, enhanced README with comprehensive transcript documentation
+
+### T6: Desktop Extension Development
+**Description**: Convert YouTube MCP server into Claude Desktop Extension (.dxt) format for one-click installation, optimize package size, and prepare for distribution
+**Status**: 🔄 **Last**: 2025-07-15 00:28:03 IST
+**Criteria**: 
+- Install DXT CLI tools and initialize extension structure
+- Create comprehensive manifest.json with all tools and user configuration
+- Fix manifest issues (author email, environment mapping, tool listings)
+- Optimize package size by creating .dxtignore file for unnecessary dependencies
+- Create appropriate icon combining YouTube and data fetching symbols
+- Test .dxt file installation and functionality
+- Document Desktop Extension installation process
+**Files**: `manifest.json`, `.dxtignore`, `icon.png`, `README.md`
+**Notes**: Initial DXT structure created, manifest.json fixed with proper tool listings and environment variable mapping, package generated but size optimization needed (149.6MB)
 
 ## Completed Tasks
 | ID | Title | Completed |

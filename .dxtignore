@@ -1,0 +1,13 @@
+node_modules/@types/*
+node_modules/typescript
+node_modules/eslint*
+node_modules/jest*
+node_modules/nodemon*
+node_modules/rimraf*
+node_modules/ts-*
+*.map
+*.d.ts
+src/
+tests/
+.git/
+.DS_Store

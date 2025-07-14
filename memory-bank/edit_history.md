@@ -2,6 +2,17 @@
 
 This file tracks specific file and folder changes in the project.
 
+### 2025-07-15
+
+#### 00:28 - T6: Desktop Extension Development - Session Documentation
+- Created `memory-bank/implementation-details/desktop-extension-plan.md` - Comprehensive development plan for DXT conversion with optimization strategy
+- Created `memory-bank/sessions/2025-07-14-night.md` - Session documentation for Desktop Extension development work
+- Updated `memory-bank/tasks.md` - Added T6 Desktop Extension Development task with detailed criteria and progress
+- Updated `memory-bank/session_cache.md` - Updated current session to T6, added active task tracking, updated session history
+
+#### 00:20 - T6: Manifest Configuration Fix
+- Fixed `manifest.json` - Corrected author email, added environment variable mapping, complete tool listings with descriptions, enhanced long description
+
 ### 2025-07-05
 
 #### 15:45 - T3: README Enhancement for Transcript Functionality
