@@ -1,1 +1,1 @@
-{"jsonrpc":"2.0","method":"prompts/list","params":{},"id":1}
+{"jsonrpc":"2.0","method":"promptsList","params":{},"id":1}
